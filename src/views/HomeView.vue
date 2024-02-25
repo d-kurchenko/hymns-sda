@@ -2,6 +2,7 @@
 </script>
 
 <template>
-  <main>
-    <h1>HOlla!</h1>  </main>
+  <main class="bg-red-400">
+    <h1>HOlla!</h1>
+  </main>
 </template>
