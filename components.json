@@ -5,12 +5,12 @@
   "tailwind": {
     "config": "tailwind.config.ts",
     "css": "src/assets/index.css",
-    "baseColor": "slate",
+    "baseColor": "gray",
     "cssVariables": true
   },
   "framework": "vite",
   "aliases": {
-    "components": "src/shared/components",
+    "components": "src/shared",
     "utils": "src/shared/utils"
   }
 }
