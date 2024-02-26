@@ -10,5 +10,12 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest'
-  }
+  },
+  ignorePatterns: [
+    'src/shared/ui',
+    'src/shared/utils.ts',
+    '/ios',
+    '/android',
+
+  ]
 }
