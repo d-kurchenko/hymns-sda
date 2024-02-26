@@ -1,3 +1,4 @@
+import { routerModel } from 'src/modules/router'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -5,8 +6,18 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: () => import('src/pages/main/ui/MainPage.vue'),
+      name: routerModel.RouteName.Main,
+      component: async () => (await import('src/pages/')).MainPage
+    },
+    {
+      path: '/books/:bookId',
+      name: routerModel.RouteName.Book,
+      component: async () => (await import('src/pages/')).BookPage,
+    },
+    {
+      path: '/books/:bookId/:articleId',
+      name: routerModel.RouteName.Article,
+      component: async () => (await import('src/pages/')).ArticlePage,
     },
   ]
 })

@@ -1,4 +1,3 @@
-
 import 'vue-router'
 import type { LayoutName } from '../layouts'
 
