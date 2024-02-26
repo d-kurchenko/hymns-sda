@@ -5,7 +5,7 @@
   "tailwind": {
     "config": "tailwind.config.ts",
     "css": "src/assets/index.css",
-    "baseColor": "gray",
+    "baseColor": "zinc",
     "cssVariables": true
   },
   "framework": "vite",
