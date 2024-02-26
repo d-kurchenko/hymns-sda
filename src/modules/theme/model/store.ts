@@ -1,17 +1,18 @@
 import { defineStore } from "pinia";
 import type { ColorScheme } from "./types";
-import  { useLocalStorage, usePreferredColorScheme, watchImmediate} from '@vueuse/core'
-import { LOCAL_STORAGE_COLOR_SCHEME_KEY, colorSchemes } from "./constants";
+import { useLocalStorage, usePreferredColorScheme, watchImmediate } from '@vueuse/core'
+import { colorSchemes } from "./constants";
 import { computed } from "vue";
+import { localStorageModel } from "src/modules/local-storage";
 
 export const useThemeStore = defineStore('theme', () => {
-  const _preferredColorScheme =  usePreferredColorScheme()
+  const _preferredColorScheme = usePreferredColorScheme()
   const preferredColorScheme = computed<ColorScheme>(() => _preferredColorScheme.value === 'no-preference' ? 'light' : _preferredColorScheme.value)
 
-  const colorSchemeStorage = useLocalStorage(LOCAL_STORAGE_COLOR_SCHEME_KEY, preferredColorScheme.value)
+  const colorSchemeStorage = useLocalStorage(localStorageModel.LocalStorageKey.COLOR_SCHEME, preferredColorScheme.value)
 
   watchImmediate(colorSchemeStorage, (value) => {
-    if(!(colorSchemes).includes(value as any)){
+    if (!(colorSchemes).includes(value as any)) {
       setTimeout(() => {
         colorSchemeStorage.value = preferredColorScheme.value
       });
@@ -20,7 +21,7 @@ export const useThemeStore = defineStore('theme', () => {
 
   const colorScheme = computed<ColorScheme>({
     get: () => {
-      if(!colorSchemes.includes(colorSchemeStorage.value as any)){
+      if (!colorSchemes.includes(colorSchemeStorage.value as any)) {
         return preferredColorScheme.value
       } else {
         return colorSchemeStorage.value as ColorScheme
@@ -29,11 +30,19 @@ export const useThemeStore = defineStore('theme', () => {
     set: (value) => colorSchemeStorage.value = value
   })
 
-  const toggleColorScheme = (_colorScheme?: ColorScheme) => {
-    if(_colorScheme) {
-      colorScheme.value = _colorScheme
+  const setPreferredColorScheme = () => {
+    colorScheme.value = preferredColorScheme.value
+  }
+
+  const toggleColorScheme = (_colorScheme?: ColorScheme | 'preferred') => {
+    if (_colorScheme) {
+      if (_colorScheme === 'preferred') {
+        setPreferredColorScheme()
+      } else {
+        colorScheme.value = _colorScheme
+      }
       return
-    } 
+    }
 
     colorScheme.value = colorScheme.value === 'dark' ? 'light' : 'dark'
   }
@@ -41,6 +50,7 @@ export const useThemeStore = defineStore('theme', () => {
   return {
     preferredColorScheme,
     colorScheme,
-    toggleColorScheme
+    toggleColorScheme,
+    setPreferredColorScheme,
   }
 })
