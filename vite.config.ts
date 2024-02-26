@@ -16,6 +16,9 @@ export default defineConfig({
       src: fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  build: {
+    target: 'esnext',
+  },
   css: {
     postcss: {
       plugins: [tailwindNesting(), tailwind(), autoprefixer()],
