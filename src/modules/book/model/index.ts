@@ -1,1 +1,2 @@
-export { default as books } from './books.json'
+export * from './model'
+export * from './types'
