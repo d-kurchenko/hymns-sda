@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue'
 
 
 import tailwind from "tailwindcss"
+import tailwindNesting from "tailwindcss/nesting"
 import autoprefixer from "autoprefixer"
 
 export default defineConfig({
@@ -18,7 +19,7 @@ export default defineConfig({
   },
   css: {
     postcss: {
-      plugins: [tailwind(), autoprefixer()],
+      plugins: [tailwindNesting(), tailwind(), autoprefixer()],
     }
   }
 })
