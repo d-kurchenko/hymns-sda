@@ -1,1 +1,1 @@
-export * as localStorageModel from './model'
+export * as localStorageModel from './model';

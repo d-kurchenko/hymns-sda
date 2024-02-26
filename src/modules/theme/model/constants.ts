@@ -1,1 +1,1 @@
-export const colorSchemes = ["dark", "light"] as const;
+export const colorSchemes = ['dark', 'light'] as const;

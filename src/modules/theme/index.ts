@@ -1,2 +1,2 @@
-export * as themeModel from './model'
-export * from './ui'
+export * as themeModel from './model';
+export * from './ui';

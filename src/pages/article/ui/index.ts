@@ -1,1 +1,1 @@
-export { default as ArticlePage } from './ArticlePage.vue'
+export { default as ArticlePage } from './ArticlePage.vue';

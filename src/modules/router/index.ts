@@ -1,1 +1,1 @@
-export * as routerModel from './model'
+export * as routerModel from './model';

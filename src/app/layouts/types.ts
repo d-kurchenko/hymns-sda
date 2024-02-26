@@ -1,1 +1,1 @@
-export type LayoutName = 'default' | 'empty'
+export type LayoutName = 'default' | 'empty';

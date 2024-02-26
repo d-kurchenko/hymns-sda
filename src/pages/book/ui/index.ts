@@ -1,1 +1,1 @@
-export { default as BookPage } from './BookPage.vue'
+export { default as BookPage } from './BookPage.vue';

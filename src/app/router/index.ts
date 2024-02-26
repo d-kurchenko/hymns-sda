@@ -1,5 +1,5 @@
-import { routerModel } from 'src/modules/router'
-import { createRouter, createWebHistory } from 'vue-router'
+import { routerModel } from 'src/modules/router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,7 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: routerModel.RouteName.Main,
-      component: async () => (await import('src/pages/')).MainPage
+      component: async () => (await import('src/pages/')).MainPage,
     },
     {
       path: '/books/:bookId',
@@ -19,7 +19,7 @@ const router = createRouter({
       name: routerModel.RouteName.Article,
       component: async () => (await import('src/pages/')).ArticlePage,
     },
-  ]
-})
+  ],
+});
 
-export default router
+export default router;

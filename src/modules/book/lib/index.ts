@@ -1,1 +1,1 @@
-export * from './uses'
+export * from './uses';
