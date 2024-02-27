@@ -4,8 +4,6 @@ import type { Component } from 'vue';
 import { DefaultLayout } from 'src/app/layouts';
 import type { LayoutName } from 'src/app/layouts';
 import { useRoute } from 'vue-router';
-import { themeModel } from 'src/modules/theme';
-import { storeToRefs } from 'pinia';
 
 const layoutsMap: Record<LayoutName, () => Component> = {
   default: () => DefaultLayout,
@@ -14,15 +12,10 @@ const layoutsMap: Record<LayoutName, () => Component> = {
 
 const route = useRoute();
 const layout = computed(() => layoutsMap[route.meta.layout || 'default']());
-
-const { colorScheme } = storeToRefs(themeModel.useThemeStore());
 </script>
 
 <template>
-  <div
-    class="h-lvh w-full bg-background text-foreground"
-    :class="colorScheme"
-  >
+  <div class="flex min-h-screen flex-col">
     <component :is="layout">
       <RouterView />
     </component>

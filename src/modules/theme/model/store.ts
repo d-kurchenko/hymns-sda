@@ -46,6 +46,14 @@ export const useThemeStore = defineStore('theme', () => {
     colorScheme.value = colorScheme.value === 'dark' ? 'light' : 'dark';
   };
 
+  watchImmediate(colorScheme, (value) => {
+    const darkColorSchemeName: ColorScheme = 'dark';
+    if (value === darkColorSchemeName)
+      document.documentElement.classList.add(darkColorSchemeName);
+    else
+      document.documentElement.classList.remove(darkColorSchemeName);
+  });
+
   return {
     preferredColorScheme,
     colorScheme,
