@@ -15,11 +15,17 @@ const router = createRouter({
       component: async () => (await import('src/pages/')).BookPage,
     },
     {
-      path: '/books/:bookId/:articleId',
+      path: '/books/:bookId/:articleNumber',
       name: routerModel.RouteName.Article,
       component: async () => (await import('src/pages/')).ArticlePage,
     },
   ],
+  scrollBehavior(to, _, savedPosition) {
+    if (savedPosition && to.name !== routerModel.RouteName.Article) {
+      return savedPosition;
+    }
+    return { top: 0, left: 0 };
+  },
 });
 
 export default router;

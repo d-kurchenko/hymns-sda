@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { routerModel } from 'src/modules/router';
 import { Button } from 'src/shared/ui/button';
 import { useRouter } from 'vue-router';
-import { routerModel } from 'src/modules/router';
 import { bookModel } from '..';
 
 const router = useRouter();
@@ -12,15 +12,15 @@ const books = bookModel.books;
   <nav>
     <Button
       v-for="book in books"
-      :key="book.code"
+      :key="book.id"
       variant="ghost"
       class="w-full text-left justify-start"
       @click="router.push({
         name: routerModel.RouteName.Book,
-        params: { bookId: book.code },
+        params: { bookId: book.id },
       })"
     >
-      {{ book.name }}
+      {{ book.title }}
     </Button>
   </nav>
 </template>

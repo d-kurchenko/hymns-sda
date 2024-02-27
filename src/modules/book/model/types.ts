@@ -1,7 +1,11 @@
-export type BookCode = 'gn' | 'ps' | 'pn' | 'psi' | 'rh' | 'bb';
-
 export interface Book {
-  code: BookCode
-  name: string
-  articles: string[]
+  title: string
+  articles: Article[]
+  id: number
+}
+
+export interface Article {
+  title: string
+  number: number
+  content: string
 }

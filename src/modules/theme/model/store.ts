@@ -1,9 +1,9 @@
-import { defineStore } from 'pinia';
-import { useLocalStorage, usePreferredColorScheme, watchImmediate } from '@vueuse/core';
-import { computed } from 'vue';
-import { localStorageModel } from 'src/modules/local-storage';
-import { colorSchemes } from './constants';
 import type { ColorScheme } from './types';
+import { useLocalStorage, usePreferredColorScheme, watchImmediate } from '@vueuse/core';
+import { defineStore } from 'pinia';
+import { localStorageModel } from 'src/modules/local-storage';
+import { computed } from 'vue';
+import { colorSchemes } from './constants';
 
 export const useThemeStore = defineStore('theme', () => {
   const _preferredColorScheme = usePreferredColorScheme();

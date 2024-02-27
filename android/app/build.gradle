@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "com.sdahymns.app"
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    namespace "com.hymns.sda"
+    compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.sdahymns.app"
+        applicationId "com.hymns.sda"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

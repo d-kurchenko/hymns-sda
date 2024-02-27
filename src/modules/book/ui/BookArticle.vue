@@ -1,27 +1,25 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { useAsyncState } from '@vueuse/core';
-import type { bookModel } from '..';
 import { bookLib } from '..';
 
 const route = useRoute();
 
-const bookCode = route.params.bookId as bookModel.BookCode;
-const articleId = Number(route.params.articleId) as number;
+const bookId = Number(route.params.bookId);
+const articleNumber = Number(route.params.articleNumber);
 
-const book = bookLib.useBook(bookCode);
+const { book } = bookLib.useBook(bookId);
 
-const { state: article } = useAsyncState(async () => {
-  const article = await book.getArticle(articleId);
-  return article;
-}, '');
+const article = book.articles.find(article => article.number === articleNumber);
 </script>
 
 <template>
-  <div class="flex flex-col items-center article-renderer">
+  <div
+    v-if="article"
+    class="flex flex-col items-center article-renderer"
+  >
     <div
-      class="w-fit max-w-full"
-      v-html="article"
+      class="w-fit max-w-full overflow-auto"
+      v-html="article.content"
     />
   </div>
 </template>
@@ -29,11 +27,11 @@ const { state: article } = useAsyncState(async () => {
 <style lang="postcss">
 .article-renderer {
   h1 {
-    @apply text-xl font-bold;
+    @apply text-3xl font-bold;
   }
 
   p {
-    @apply text-lg py-3;
+    @apply text-3xl py-3;
   }
 }
 </style>
