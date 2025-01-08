@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { TransitionFade } from '@morev/vue-transitions';
 import { Moon, Sun, SunMoon } from 'lucide-vue-next';
 import { themeModel } from 'src/modules/theme';
 import { Button } from 'src/shared/ui/button';
@@ -12,10 +13,13 @@ const themeStore = themeModel.useThemeStore();
     size="icon"
     @click="themeStore.toggleColorScheme()"
   >
-    <Transition mode="out-in">
+    <TransitionFade
+      mode="out-in"
+      :duration="100"
+    >
       <Sun v-if="themeStore.colorScheme === 'light'" />
       <Moon v-else-if="themeStore.colorScheme === 'dark'" />
       <SunMoon v-else-if="themeStore.colorScheme === 'preferred'" />
-    </Transition>
+    </TransitionFade>
   </Button>
 </template>

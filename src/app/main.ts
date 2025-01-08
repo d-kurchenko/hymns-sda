@@ -6,6 +6,7 @@ import App from './App.vue';
 import router from './router';
 
 import './index.css';
+import '@morev/vue-transitions/styles';
 
 const app = createApp(App);
 

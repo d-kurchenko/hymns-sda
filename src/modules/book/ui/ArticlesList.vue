@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { TransitionSlide } from '@morev/vue-transitions';
+import { useWindowScroll } from '@vueuse/core';
 import { useFuse } from '@vueuse/integrations/useFuse';
 import { useRouteQuery } from '@vueuse/router';
-import { Search } from 'lucide-vue-next';
+import { ChevronUp, Search } from 'lucide-vue-next';
 import { routerModel } from 'src/modules/router';
 import { Button } from 'src/shared/ui/button';
 import { Input } from 'src/shared/ui/input';
@@ -44,6 +46,8 @@ const { results: articlesResults } = useFuse(searchModel, book.articles, {
     distance: 10000,
   },
 });
+
+const { y } = useWindowScroll({ behavior: 'smooth' });
 </script>
 
 <template>
@@ -80,5 +84,17 @@ const { results: articlesResults } = useFuse(searchModel, book.articles, {
     <div v-else>
       Не найдено результатов для: "{{ searchModel }}"...
     </div>
+
+    <TransitionSlide :offset="[0, 16]">
+      <Button
+        v-if="y >= 300"
+        variant="outline"
+        size="icon"
+        class="fixed bottom-5 right-5 z-10 pointer-events-auto"
+        @click.prevent.stop="y = 0"
+      >
+        <ChevronUp class="w-4 h-4" />
+      </Button>
+    </TransitionSlide>
   </div>
 </template>
