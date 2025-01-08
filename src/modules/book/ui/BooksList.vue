@@ -14,7 +14,7 @@ const books = bookModel.books;
       v-for="book in books"
       :key="book.id"
       variant="ghost"
-      class="w-full text-left justify-start"
+      class="w-full text-left justify-start whitespace-normal"
       @click="router.push({
         name: routerModel.RouteName.Book,
         params: { bookId: book.id },

@@ -66,7 +66,7 @@ const { results: articlesResults } = useFuse(searchModel, book.articles, {
       <Button
         v-for="({ item: article }, index) of articlesResults"
         :key="index"
-        class="w-full text-left justify-start"
+        class="w-full text-left justify-start whitespace-normal"
         variant="ghost"
         @click="router.push({
           name: routerModel.RouteName.Article,
