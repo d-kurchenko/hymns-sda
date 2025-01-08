@@ -13,8 +13,8 @@ const themeStore = themeModel.useThemeStore();
     @click="themeStore.toggleColorScheme()"
   >
     <Transition mode="out-in">
-      <Sun v-if="themeStore.colorScheme === 'dark'" />
-      <Moon v-else-if="themeStore.colorScheme === 'light'" />
+      <Sun v-if="themeStore.colorScheme === 'light'" />
+      <Moon v-else-if="themeStore.colorScheme === 'dark'" />
       <SunMoon v-else-if="themeStore.colorScheme === 'preferred'" />
     </Transition>
   </Button>
