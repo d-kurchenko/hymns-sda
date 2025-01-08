@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Moon, Sun } from 'lucide-vue-next';
+import { Moon, Sun, SunMoon } from 'lucide-vue-next';
 import { themeModel } from 'src/modules/theme';
 import { Button } from 'src/shared/ui/button';
 
@@ -12,7 +12,10 @@ const themeStore = themeModel.useThemeStore();
     size="icon"
     @click="themeStore.toggleColorScheme()"
   >
-    <Sun v-if="themeStore.colorScheme === 'dark'" />
-    <Moon v-else-if="themeStore.colorScheme === 'light'" />
+    <Transition mode="out-in">
+      <Sun v-if="themeStore.colorScheme === 'dark'" />
+      <Moon v-else-if="themeStore.colorScheme === 'light'" />
+      <SunMoon v-else-if="themeStore.colorScheme === 'preferred'" />
+    </Transition>
   </Button>
 </template>
