@@ -52,7 +52,7 @@ const { y } = useWindowScroll({ behavior: 'smooth' });
 
 <template>
   <div class="space-y-2">
-    <div class="w-full relative">
+    <div class="w-full sticky z-20 top-[65px]">
       <Input
         id="search"
         v-model="searchModel"
