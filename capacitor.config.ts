@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.hymns.sda',
-  appName: 'Hymns SDA',
+  appName: 'Гимны АСД',
   webDir: 'dist',
 };
 

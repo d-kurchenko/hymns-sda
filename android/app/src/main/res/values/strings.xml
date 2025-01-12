@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Hymns SDA</string>
-    <string name="title_activity_main">Hymns SDA</string>
+    <string name="app_name">Гимны АСД</string>
+    <string name="title_activity_main">Гимны АСД</string>
     <string name="package_name">com.hymns.sda</string>
     <string name="custom_url_scheme">com.hymns.sda</string>
 </resources>
