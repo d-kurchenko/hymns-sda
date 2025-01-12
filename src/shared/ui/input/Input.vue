@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue'
+import { shallowRef, type FunctionalComponent, type HTMLAttributes } from 'vue'
 import { cn } from 'src/shared/utils'
 import { useVModel } from '@vueuse/core'
+import { CircleXIcon } from 'lucide-vue-next';
 
 const props = defineProps<{
   defaultValue?: string | number
   modelValue?: string | number
   class?: HTMLAttributes['class']
+  prefixIcon?: FunctionalComponent
+  clearable?: boolean
 }>()
 
 const emits = defineEmits<{
@@ -17,8 +20,33 @@ const modelValue = useVModel(props, 'modelValue', emits, {
   passive: true,
   defaultValue: props.defaultValue,
 })
+
+const ref = shallowRef<null | HTMLInputElement>(null)
+
+function clear() {
+  modelValue.value = ''
+  ref.value?.focus()
+}
 </script>
 
 <template>
-  <input v-model="modelValue" :class="cn('flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50', props.class)">
+  <div :class="cn('relative', props.class)">
+    <input v-bind="$attrs" v-model="modelValue"
+      ref="ref"
+      :class="[
+        cn('flex h-10 w-full relative rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'),
+        {
+          'pl-10': prefixIcon,
+          'pr-10': clearable
+        }
+        ]"
+    >
+    <span v-if="prefixIcon" class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
+      <Component :is="prefixIcon" class="size-6 text-muted-foreground"/>
+    </span>
+
+    <span v-if="clearable && modelValue" class="absolute end-0 inset-y-0 flex items-center justify-center mx-2 h-fit top-1/2 -translate-y-1/2">
+      <CircleXIcon @click="clear" class="size-4 text-muted-foreground cursor-pointer hover:text-foreground"/>
+    </span>
+  </div>
 </template>

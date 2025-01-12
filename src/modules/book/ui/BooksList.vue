@@ -2,7 +2,7 @@
 import { TransitionSlide } from '@morev/vue-transitions';
 import { until, useWindowScroll } from '@vueuse/core';
 import { useRouteQuery } from '@vueuse/router';
-import { ChevronUp, Search } from 'lucide-vue-next';
+import { ChevronUp, Search, SearchIcon } from 'lucide-vue-next';
 import { routerModel } from 'src/modules/router';
 import { Button } from 'src/shared/ui/button';
 import Input from 'src/shared/ui/input/Input.vue';
@@ -30,19 +30,15 @@ if (restoredScrollTop > window.scrollY) {
 
 <template>
   <div class="space-y-2">
-    <div class="w-full sticky z-20 top-[65px]">
-      <Input
-        id="search"
-        v-model="searchModel"
-        type="text"
-        placeholder="Глобальный поиск"
-        class="pl-10"
-      />
-
-      <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
-        <Search class="size-6 text-muted-foreground" />
-      </span>
-    </div>
+    <Input
+      id="search"
+      v-model="searchModel"
+      type="text"
+      placeholder="Глобальный поиск"
+      :prefix-icon="SearchIcon"
+      clearable
+      class="w-full sticky top-[65px]"
+    />
 
     <template v-if="!searchModel.length || (!articlesResults.length && isLoading)">
       <Button
@@ -81,9 +77,9 @@ if (restoredScrollTop > window.scrollY) {
       </Button>
     </template>
 
-    <template v-else-if="!isLoading">
+    <div v-else-if="!isLoading">
       Не найдено результатов для: "{{ searchModel }}"...
-    </template>
+    </div>
 
     <TransitionSlide :offset="[0, 16]">
       <Button
