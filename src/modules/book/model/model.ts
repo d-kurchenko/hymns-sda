@@ -1,6 +1,6 @@
 import type { Book } from './types';
 
-export const books: Book[] = [
+export const unpreparedBooks = [
   {
     title: 'Гимны Надежды',
     id: 0,
@@ -10363,3 +10363,22 @@ export const books: Book[] = [
     ],
   },
 ];
+
+export const books: Book[] = unpreparedBooks.map(book => ({
+  ...book,
+  articles: book.articles.map(article => ({
+    ...article,
+    bookTitle: book.title,
+    bookId: book.id,
+    plainContent: (() => {
+      const div = document.createElement('div');
+      div.innerHTML = article.content;
+
+      return (div.textContent || '')
+        .replace(/[\n,\-.?!@#$:;%^&[\]"'/_\\]/g, '  ')
+        .replace(/\s+/g, ' ');
+    })(),
+  })),
+}));
+
+export const allArticles = books.flatMap(book => book.articles.map(article => article));

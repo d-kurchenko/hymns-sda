@@ -6,7 +6,12 @@ export function useBook(bookId: number) {
   if (!book)
     throw new Error(`Book with code ${bookId} not found`);
 
+  function searchArticles() {
+
+  }
+
   return {
     book,
+    searchArticles,
   };
 }

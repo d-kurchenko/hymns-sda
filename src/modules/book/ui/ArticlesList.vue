@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { TransitionSlide } from '@morev/vue-transitions';
 import { useWindowScroll } from '@vueuse/core';
-import { useFuse } from '@vueuse/integrations/useFuse';
 import { useRouteQuery } from '@vueuse/router';
 import { ChevronUp, Search } from 'lucide-vue-next';
 import { routerModel } from 'src/modules/router';
@@ -18,34 +17,10 @@ const { book } = bookLib.useBook(bookId);
 
 const searchModel = useRouteQuery('search', '');
 
-const { results: articlesResults } = useFuse(searchModel, book.articles, {
-  matchAllWhenSearchEmpty: true,
-  fuseOptions: {
-    isCaseSensitive: false,
-    keys: [
-      {
-        name: 'title',
-        weight: 1,
-      },
-      {
-        name: 'content',
-        getFn(article) {
-          const div = document.createElement('div');
-          div.innerHTML = article.content;
-
-          const plainText = (div.textContent || '')
-            .replace(/[\n,\-.?!@#$:;%^&[\]"'/_\\]/g, '  ')
-            .replace(/\s+/g, ' ');
-
-          return plainText;
-        },
-      },
-    ],
-
-    threshold: 0.3,
-    distance: 10000,
-  },
-});
+const { resultItems: articlesResults, isLoading } = bookLib.useSearchInBooks(
+  searchModel,
+  bookId,
+);
 
 const { y } = useWindowScroll({ behavior: 'smooth' });
 </script>
@@ -57,7 +32,7 @@ const { y } = useWindowScroll({ behavior: 'smooth' });
         id="search"
         v-model="searchModel"
         type="text"
-        placeholder="Поиск..."
+        placeholder="Поиск"
         class="pl-10"
       />
 
@@ -66,9 +41,9 @@ const { y } = useWindowScroll({ behavior: 'smooth' });
       </span>
     </div>
 
-    <div v-if="articlesResults.length">
+    <div v-if="!searchModel.length || (!articlesResults.length && isLoading)">
       <Button
-        v-for="({ item: article }, index) of articlesResults"
+        v-for="(article, index) of book.articles"
         :key="index"
         class="w-full text-left justify-start whitespace-normal"
         variant="ghost"
@@ -81,9 +56,24 @@ const { y } = useWindowScroll({ behavior: 'smooth' });
       </Button>
     </div>
 
-    <div v-else>
+    <template v-else-if="articlesResults.length">
+      <Button
+        v-for="({ item: article }, index) of articlesResults"
+        :key="index"
+        class="w-full text-left justify-start whitespace-normal"
+        variant="ghost"
+        @click="router.push({
+          name: routerModel.RouteName.Article,
+          params: { bookId, articleNumber: article.number },
+        })"
+      >
+        {{ article.number }}. {{ article.title }}
+      </Button>
+    </template>
+
+    <template v-else-if="!isLoading">
       Не найдено результатов для: "{{ searchModel }}"...
-    </div>
+    </template>
 
     <TransitionSlide :offset="[0, 16]">
       <Button

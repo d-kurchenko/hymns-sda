@@ -8,4 +8,7 @@ export interface Article {
   title: string
   number: number
   content: string
+  bookTitle: string
+  bookId: number
+  plainContent: string
 }

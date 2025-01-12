@@ -12,7 +12,9 @@ import { SelectThemeButton } from 'src/modules/theme';
     </div>
 
     <div class="flex flex-col flex-1 px-6 py-2">
-      <RouterView />
+      <RouterView v-slot="{ Component }">
+        <Component :is="Component" />
+      </RouterView>
     </div>
   </div>
 </template>
