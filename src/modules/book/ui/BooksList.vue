@@ -18,8 +18,8 @@ const { resultItems: articlesResults, isLoading } = bookLib.useSearchInBooks(sea
 
 const { y } = useWindowScroll({ behavior: 'smooth' });
 
-const restoredScrollTop = (history.state.scroll as any).top as number;
-if (restoredScrollTop > window.scrollY) {
+const restoredScrollTop = (router.options.history.state.scroll as any)?.top as number | null;
+if (restoredScrollTop && restoredScrollTop > window.scrollY) {
   until(isLoading)
     .toBe(false)
     .then(() => {
