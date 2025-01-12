@@ -4,7 +4,7 @@ import { type MaybeRefOrGetter, ref, shallowRef, toValue, watch } from 'vue';
 import { allArticles, type Article } from '../model';
 import { useBook } from './book.use';
 
-const WORKER_LIFE_TIME = 3_000;
+const WORKER_LIFE_TIME = 30_000;
 
 let _worker: Worker | null = null;
 const promisesWithResolvers: Record<string, PromiseWithResolvers<any>> = {};
