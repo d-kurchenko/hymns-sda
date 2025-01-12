@@ -15,10 +15,10 @@ const article = book.articles.find(article => article.number === articleNumber);
 <template>
   <div
     v-if="article"
-    class="flex flex-col items-center article-renderer"
+    class="flex flex-col items-center article-renderer grow"
   >
     <div
-      class="w-fit max-w-full overflow-auto"
+      class="w-fit max-w-full overflow-auto grow"
       v-html="article.content"
     />
   </div>
@@ -28,6 +28,10 @@ const article = book.articles.find(article => article.number === articleNumber);
 .article-renderer {
   h1 {
     @apply text-3xl font-bold;
+  }
+
+  h3 {
+    @apply text-xl font-bold;
   }
 
   p {

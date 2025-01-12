@@ -5,7 +5,7 @@ import { SelectThemeButton } from 'src/modules/theme';
 <template>
   <div class="h-full flex flex-1 flex-col">
     <div class="py-2 px-4 flex justify-between items-center select-none sticky top-0 bg-background/70 backdrop-blur-lg border-b z-10">
-      <div class="text-2xl font-bold italic">
+      <div class="text-2xl font-extrabold italic">
         Гимны АСД
       </div>
       <SelectThemeButton />
