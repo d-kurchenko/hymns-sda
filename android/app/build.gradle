@@ -1,5 +1,23 @@
 apply plugin: 'com.android.application'
 
+def getVersionNameFromPackageJson() {
+    def file = new File(rootDir, "../package.json")
+    def jsonSlurper = new groovy.json.JsonSlurper()
+    def packageJson = jsonSlurper.parseText(file.text)
+    return packageJson.version
+}
+
+def getVersionCode(versionName) {
+    def versionParts = versionName.split("\\.")
+    if (versionParts.size() != 3) {
+        throw new IllegalArgumentException("Version name must be in the format 'X.Y.Z'")
+    }
+    def major = Integer.parseInt(versionParts[0]) * 10000
+    def minor = Integer.parseInt(versionParts[1]) * 100
+    def patch = Integer.parseInt(versionParts[2])
+    return major + minor + patch
+}
+
 android {
     namespace "com.hymns.sda"
     compileSdk rootProject.ext.compileSdkVersion
@@ -7,8 +25,8 @@ android {
         applicationId "com.hymns.sda"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode getVersionCode(getVersionNameFromPackageJson())
+        versionName getVersionNameFromPackageJson()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -20,6 +38,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+android.applicationVariants.all { variant ->
+    if (variant.buildType.name == 'release') {
+        variant.outputs.each { output ->
+            def versionName = variant.versionName
+            def newFileName = "hymns-sda-v${versionName}.apk"
+            output.outputFileName = newFileName
         }
     }
 }
