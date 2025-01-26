@@ -45,8 +45,8 @@ function clear() {
       <Component :is="prefixIcon" class="size-6 text-muted-foreground"/>
     </span>
 
-    <span v-if="clearable && modelValue" class="absolute end-0 inset-y-0 flex items-center justify-center mx-2 h-fit top-1/2 -translate-y-1/2">
-      <CircleXIcon @click="clear" class="size-4 text-muted-foreground cursor-pointer hover:text-foreground"/>
+    <span v-if="clearable && modelValue" class="absolute flex items-center justify-center mr-2 right-0 top-1/2 -translate-y-1/2 w-7 h-full cursor-pointer text-muted-foreground hover:text-foreground">
+      <CircleXIcon @click="clear" class="size-4"/>
     </span>
   </div>
 </template>
