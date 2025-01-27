@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { TransitionFade } from '@morev/vue-transitions';
-import { Moon, Sun, SunMoon } from 'lucide-vue-next';
 import { themeModel } from 'src/modules/theme';
 
 const themeStore = themeModel.useThemeStore();
