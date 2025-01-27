@@ -1,11 +1,11 @@
 import { App as CapacitorApp } from '@capacitor/app';
-import { SafeArea } from '@capacitor-community/safe-area';
 
+import { SafeArea } from '@capacitor-community/safe-area';
 import { useThemeStore } from 'src/modules/theme/model';
+
 import { createApp } from 'vue';
 
 import App from './App.vue';
-
 import router from './router';
 import './index.css';
 import '@morev/vue-transitions/styles';
