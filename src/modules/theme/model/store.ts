@@ -1,10 +1,9 @@
-import type { ColorScheme } from './types';
-import { SafeArea } from '@capacitor-community/safe-area';
+import type { ColorMode, ColorScheme } from './types';
 import { createSharedComposable, useLocalStorage, usePreferredColorScheme, watchImmediate } from '@vueuse/core';
 import { localStorageModel } from 'src/modules/local-storage';
 import { computed, watch } from 'vue';
+import { syncSafeAreaContentColor } from '../lib';
 
-type ColorMode = 'dark' | 'light';
 type ColorSchemeClass = Exclude<ColorScheme, 'preferred'>;
 
 function setThemeClass(className: ColorSchemeClass) {
@@ -12,15 +11,6 @@ function setThemeClass(className: ColorSchemeClass) {
     ui('mode', 'light');
   else
     ui('mode', 'dark');
-}
-
-function syncSafeAreaContentColor(activeColorMode: ColorMode) {
-  SafeArea.enable({
-    config: {
-      statusBarContent: activeColorMode === 'dark' ? 'light' : 'dark',
-      navigationBarContent: activeColorMode === 'dark' ? 'light' : 'dark',
-    },
-  });
 }
 
 export const useThemeStore = createSharedComposable(() => {

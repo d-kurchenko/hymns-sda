@@ -1,3 +1,2 @@
-import type { colorSchemes } from './constants';
-
-export type ColorScheme = typeof colorSchemes[number];
+export type ColorScheme = 'dark' | 'light' | 'preferred';
+export type ColorMode = 'dark' | 'light';
