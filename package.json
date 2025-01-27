@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
+    "build:watch": "vite build --watch",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
@@ -14,9 +15,10 @@
     "open:android": "cap copy android && cap open android"
   },
   "dependencies": {
-    "@capacitor/android": "^6.2.0",
-    "@capacitor/app": "^6.0.2",
-    "@capacitor/core": "^6.1.2",
+    "@capacitor-community/safe-area": "^7.0.0-alpha.1",
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/app": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
     "@morev/vue-transitions": "^3.0.5",
     "@vueuse/core": "^11.2.0",
     "@vueuse/integrations": "^11.2.0",
@@ -29,7 +31,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.8.0",
-    "@capacitor/cli": "^6.1.2",
+    "@capacitor/cli": "^7.0.0",
     "@tsconfig/node20": "^20.1.4",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vue/tsconfig": "^0.6.0",
