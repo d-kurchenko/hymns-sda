@@ -3,15 +3,15 @@ import { SelectThemeButton } from 'src/modules/theme';
 </script>
 
 <template>
-  <div class="h-full flex flex-1 flex-col">
-    <div class="py-2 px-4 flex justify-between items-center select-none sticky top-0 bg-background/70 backdrop-blur-lg border-b z-10">
-      <div class="text-2xl font-extrabold italic">
+  <div class="tw-h-full tw-flex tw-flex-1 tw-flex-col">
+    <div class="tw-py-2 tw-px-4 tw-flex tw-justify-between tw-items-center tw-select-none tw-sticky tw-top-0 tw-z-10 blur !tw-bg-transparent tw-border-b tw-border-[var(--outline)]">
+      <div class="tw-text-2xl tw-font-extrabold tw-italic">
         Гимны АСД
       </div>
-      <SelectThemeButton />
+      <SelectThemeButton class="tw-m-0" />
     </div>
 
-    <div class="flex flex-col flex-1 px-6 py-2">
+    <div class="tw-flex tw-flex-col tw-flex-1 tw-px-6 tw-py-4">
       <RouterView v-slot="{ Component }">
         <Component :is="Component" />
       </RouterView>

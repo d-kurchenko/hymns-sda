@@ -1,5 +1,4 @@
 import { App as CapacitorApp } from '@capacitor/app';
-import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 
 import App from './App.vue';
@@ -7,10 +6,13 @@ import router from './router';
 
 import './index.css';
 import '@morev/vue-transitions/styles';
+import 'beercss';
+import 'material-dynamic-colors';
+
+ui('theme', '#44d8f1');
 
 const app = createApp(App);
 
-app.use(createPinia());
 app.use(router);
 
 router.isReady().then(() => {

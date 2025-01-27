@@ -15,7 +15,7 @@ const layout = computed(() => layoutsMap[route.meta.layout || 'default']());
 </script>
 
 <template>
-  <div class="min-h-lvh flex flex-col">
+  <div class="tw-min-h-lvh tw-flex tw-flex-col">
     <component :is="layout">
       <RouterView />
     </component>

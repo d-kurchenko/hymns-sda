@@ -1,5 +1,5 @@
 <template>
-  <div class="h-lvh w-full bg-background">
+  <div class="tw-h-lvh tw-w-full tw-bg-background">
     <RouterView />
   </div>
 </template>

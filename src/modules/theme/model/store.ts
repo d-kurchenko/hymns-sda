@@ -1,18 +1,17 @@
 import type { ColorScheme } from './types';
-import { useLocalStorage, usePreferredColorScheme, watchImmediate } from '@vueuse/core';
-import { defineStore } from 'pinia';
+import { createSharedComposable, useLocalStorage, usePreferredColorScheme, watchImmediate } from '@vueuse/core';
 import { localStorageModel } from 'src/modules/local-storage';
 import { computed, watch } from 'vue';
 
 type ColorSchemeClass = Exclude<ColorScheme, 'preferred'>;
 function setThemeClass(className: ColorSchemeClass) {
   if (className === 'light')
-    document.documentElement.classList.remove('dark' as ColorSchemeClass);
+    ui('mode', 'light');
   else
-    document.documentElement.classList.add('dark' as ColorSchemeClass);
+    ui('mode', 'dark');
 }
 
-export const useThemeStore = defineStore('theme', () => {
+export const useThemeStore = createSharedComposable(() => {
   const _preferredColorScheme = usePreferredColorScheme();
   const preferredColorScheme = computed(() => _preferredColorScheme.value === 'no-preference' ? 'light' : _preferredColorScheme.value);
 

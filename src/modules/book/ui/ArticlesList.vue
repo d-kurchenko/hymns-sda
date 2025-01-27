@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { TransitionSlide } from '@morev/vue-transitions';
-import { useWindowScroll } from '@vueuse/core';
+import { useFocus, useWindowScroll } from '@vueuse/core';
 import { useRouteQuery } from '@vueuse/router';
-import { ChevronUp, SearchIcon } from 'lucide-vue-next';
 import { routerModel } from 'src/modules/router';
-import { Button } from 'src/shared/ui/button';
-import { Input } from 'src/shared/ui/input';
+import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { bookLib } from '..';
 
@@ -23,48 +21,63 @@ const { resultItems: articlesResults, isLoading } = bookLib.useSearchInBooks(
 );
 
 const { y } = useWindowScroll({ behavior: 'smooth' });
+const searchInputEl = ref<HTMLInputElement | null>(null);
+const isSearchInputFocused = useFocus(searchInputEl);
+const isSearchLabelVisible = computed(() => !isSearchInputFocused.focused.value || y.value <= 80);
 </script>
 
 <template>
-  <div class="space-y-2">
-    <Input
-      id="search"
-      v-model="searchModel"
-      type="text"
-      placeholder="Поиск"
-      :prefix-icon="SearchIcon"
-      clearable
-      class="w-full sticky top-[65px]"
-    />
+  <div class="tw-space-y-2">
+    <div
+      class="field suffix round border blur
+      tw-sticky tw-top-[74px] tw-z-10 !tw-bg-transparent"
+      :class="{ label: isSearchLabelVisible }"
+    >
+      <input
+        :ref="(el) => searchInputEl = (el as HTMLInputElement)"
+        v-model="searchModel"
+        type="text"
+      >
+      <label v-if="isSearchLabelVisible">Поиск</label>
+      <i>search</i>
+    </div>
 
     <div v-if="!searchModel.length || (!articlesResults.length && isLoading)">
-      <Button
-        v-for="(article, index) of book.articles"
-        :key="index"
-        class="w-full text-left justify-start whitespace-normal"
-        variant="ghost"
-        @click="router.push({
-          name: routerModel.RouteName.Article,
-          params: { bookId, articleNumber: article.number },
-        })"
-      >
-        {{ article.number }}. {{ article.title }}
-      </Button>
+      <article>
+        <template
+          v-for="(article, index) of book.articles"
+          :key="index"
+        >
+          <a
+            class="row wave !tw-whitespace-break-spaces"
+            @click="router.push({
+              name: routerModel.RouteName.Article,
+              params: { bookId, articleNumber: article.number },
+            })"
+            v-text="`${article.number}. ${article.title}`"
+          />
+          <hr v-if="index !== book.articles.length - 1">
+        </template>
+      </article>
     </div>
 
     <template v-else-if="articlesResults.length">
-      <Button
-        v-for="({ item: article }, index) of articlesResults"
-        :key="index"
-        class="w-full text-left justify-start whitespace-normal"
-        variant="ghost"
-        @click="router.push({
-          name: routerModel.RouteName.Article,
-          params: { bookId, articleNumber: article.number },
-        })"
-      >
-        {{ article.number }}. {{ article.title }}
-      </Button>
+      <article>
+        <template
+          v-for="({ item: article }, index) of articlesResults"
+          :key="index"
+        >
+          <a
+            class="row wave"
+            @click="router.push({
+              name: routerModel.RouteName.Article,
+              params: { bookId, articleNumber: article.number },
+            })"
+            v-text="`${article.number}. ${article.title}`"
+          />
+          <hr v-if="index !== articlesResults.length - 1">
+        </template>
+      </article>
     </template>
 
     <div v-else-if="!isLoading">
@@ -72,15 +85,14 @@ const { y } = useWindowScroll({ behavior: 'smooth' });
     </div>
 
     <TransitionSlide :offset="[0, 16]">
-      <Button
+      <button
         v-if="y >= 300"
-        variant="outline"
-        size="icon"
-        class="fixed bottom-5 right-5 z-10 pointer-events-auto"
+        class="border circle extra large-elevate secondary-border secondary-text blur
+        tw-fixed tw-bottom-5 tw-right-5 !tw-bg-transparent tw-z-10"
         @click.prevent.stop="y = 0"
       >
-        <ChevronUp class="w-4 h-4" />
-      </Button>
+        <i>keyboard_arrow_up</i>
+      </button>
     </TransitionSlide>
   </div>
 </template>

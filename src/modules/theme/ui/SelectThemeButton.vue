@@ -2,24 +2,22 @@
 import { TransitionFade } from '@morev/vue-transitions';
 import { Moon, Sun, SunMoon } from 'lucide-vue-next';
 import { themeModel } from 'src/modules/theme';
-import { Button } from 'src/shared/ui/button';
 
 const themeStore = themeModel.useThemeStore();
 </script>
 
 <template>
-  <Button
-    variant="ghost"
-    size="icon"
+  <button
+    class="transparent circle"
     @click="themeStore.toggleColorScheme()"
   >
     <TransitionFade
       mode="out-in"
       :duration="100"
     >
-      <Sun v-if="themeStore.colorScheme === 'light'" />
-      <Moon v-else-if="themeStore.colorScheme === 'dark'" />
-      <SunMoon v-else-if="themeStore.colorScheme === 'preferred'" />
+      <i v-if="themeStore.colorScheme.value === 'light'">light_mode</i>
+      <i v-else-if="themeStore.colorScheme.value === 'dark'">dark_mode</i>
+      <i v-else-if="themeStore.colorScheme.value === 'preferred'">auto_awesome</i>
     </TransitionFade>
   </Button>
 </template>

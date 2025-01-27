@@ -15,10 +15,10 @@ const article = book.articles.find(article => article.number === articleNumber);
 <template>
   <div
     v-if="article"
-    class="flex flex-col items-center article-renderer grow"
+    class="article-renderer tw-flex tw-flex-col tw-items-center tw-grow"
   >
     <div
-      class="w-fit max-w-full overflow-auto grow"
+      class="tw-w-fit tw-max-w-full tw-overflow-auto tw-grow"
       v-html="article.content"
     />
   </div>
@@ -27,15 +27,24 @@ const article = book.articles.find(article => article.number === articleNumber);
 <style lang="postcss">
 .article-renderer {
   h1 {
-    @apply text-3xl font-bold;
+    @apply !tw-text-4xl !tw-font-bold;
   }
 
   h3 {
-    @apply text-xl font-bold;
+    @apply tw-text-xl tw-font-bold;
   }
 
   p {
-    @apply text-3xl py-3;
+    @apply tw-text-3xl;
+  }
+
+  i {
+    all: unset;
+    @apply tw-italic;
+  }
+
+  pre {
+    @apply tw-whitespace-pre tw-w-fit tw-text-xl;
   }
 }
 </style>

@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { TransitionSlide } from '@morev/vue-transitions';
-import { until, useWindowScroll } from '@vueuse/core';
+import { until, useFocus, useWindowScroll } from '@vueuse/core';
 import { useRouteQuery } from '@vueuse/router';
-import { ChevronUp, Search, SearchIcon } from 'lucide-vue-next';
 import { routerModel } from 'src/modules/router';
-import { Button } from 'src/shared/ui/button';
-import Input from 'src/shared/ui/input/Input.vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { bookLib, bookModel } from '..';
 
@@ -17,6 +15,9 @@ const searchModel = useRouteQuery('search', '');
 const { resultItems: articlesResults, isLoading } = bookLib.useSearchInBooks(searchModel);
 
 const { y } = useWindowScroll({ behavior: 'smooth' });
+const searchInputEl = ref<HTMLInputElement | null>(null);
+const isSearchInputFocused = useFocus(searchInputEl);
+const isSearchLabelVisible = computed(() => !isSearchInputFocused.focused.value || y.value <= 80);
 
 const restoredScrollTop = (router.options.history.state.scroll as any)?.top as number | null;
 if (restoredScrollTop && restoredScrollTop > window.scrollY) {
@@ -29,52 +30,65 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
 </script>
 
 <template>
-  <div class="space-y-2">
-    <Input
-      id="search"
-      v-model="searchModel"
-      type="text"
-      placeholder="Глобальный поиск"
-      :prefix-icon="SearchIcon"
-      clearable
-      class="w-full sticky top-[65px]"
-    />
+  <div class="tw-space-y-2">
+    <div
+      class="field suffix round border blur
+      tw-sticky tw-top-[74px] tw-z-10 !tw-bg-transparent"
+      :class="{ label: isSearchLabelVisible }"
+    >
+      <input
+        :ref="(el) => searchInputEl = (el as HTMLInputElement)"
+        v-model="searchModel"
+        type="text"
+      >
+      <label v-if="isSearchLabelVisible">Глобальный поиск</label>
+      <i>search</i>
+    </div>
 
     <template v-if="!searchModel.length || (!articlesResults.length && isLoading)">
-      <Button
-        v-for="book in books"
-        :key="book.id"
-        variant="ghost"
-        class="w-full text-left justify-start whitespace-normal"
-        @click="router.push({
-          name: routerModel.RouteName.Book,
-          params: { bookId: book.id },
-        })"
-      >
-        {{ book.title }}
-      </Button>
+      <article>
+        <template
+          v-for="(book, index) in books"
+          :key="index"
+        >
+          <a
+            class="row wave"
+            @click="router.push({
+              name: routerModel.RouteName.Book,
+              params: { bookId: book.id },
+            })"
+            v-text="book.title"
+          />
+          <hr v-if="index !== books.length - 1">
+        </template>
+      </article>
     </template>
 
     <template v-else-if="articlesResults.length">
-      <Button
-        v-for="({ item: article }, index) of articlesResults"
-        :key="index"
-        class="w-full text-left justify-start whitespace-normal h-auto"
-        variant="ghost"
-        @click="router.push({
-          name: routerModel.RouteName.Article,
-          params: { bookId: article.bookId, articleNumber: article.number },
-        })"
-      >
-        <div class="w-full space-y-2">
-          <div>
-            {{ article.number }}. {{ article.title }}
-          </div>
-          <div class="text-xs text-foreground/60">
-            <span class="bg-foreground/10 rounded-3xl px-1">{{ article.bookTitle }}</span>
-          </div>
-        </div>
-      </Button>
+      <article>
+        <template
+          v-for="({ item: article }, index) of articlesResults"
+          :key="index"
+        >
+          <a
+            class="row wave"
+            @click="router.push({
+              name: routerModel.RouteName.Article,
+              params: { bookId: article.bookId, articleNumber: article.number },
+            })"
+          >
+            <div class="tw-w-full tw-space-y-2">
+              <span>{{ article.number }}. {{ article.title }}</span>
+              <div>
+                <span class="tw-text-xs tw-text-[var(--on-secondary)] tw-bg-[var(--secondary)] tw-rounded-3xl tw-px-1 tw-py-1">
+                  {{ article.bookTitle }}
+                </span>
+              </div>
+            </div>
+          </a>
+          <hr v-if="index !== articlesResults.length - 1">
+        </template>
+      </article>
     </template>
 
     <div v-else-if="!isLoading">
@@ -82,15 +96,14 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
     </div>
 
     <TransitionSlide :offset="[0, 16]">
-      <Button
+      <button
         v-if="y >= 300"
-        variant="outline"
-        size="icon"
-        class="fixed bottom-5 right-5 z-10 pointer-events-auto"
+        class="border circle extra large-elevate secondary-border secondary-text blur
+        tw-fixed tw-bottom-5 tw-right-5 !tw-bg-transparent tw-z-10"
         @click.prevent.stop="y = 0"
       >
-        <ChevronUp class="w-4 h-4" />
-      </Button>
+        <i>keyboard_arrow_up</i>
+      </button>
     </TransitionSlide>
   </div>
 </template>
