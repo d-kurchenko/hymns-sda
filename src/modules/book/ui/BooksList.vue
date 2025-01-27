@@ -33,7 +33,7 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
   <div class="tw-space-y-2">
     <div
       class="field suffix round border blur
-      tw-sticky tw-top-[74px] tw-z-10 !tw-bg-transparent"
+      tw-sticky tw-top-[calc(74px_+_var(--safe-area-inset-top))] tw-z-10 !tw-bg-transparent"
       :class="{ label: isSearchLabelVisible }"
     >
       <input
