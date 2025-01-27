@@ -68,7 +68,7 @@ const isSearchLabelVisible = computed(() => !isSearchInputFocused.focused.value 
           :key="index"
         >
           <a
-            class="row wave"
+            class="row wave !tw-whitespace-break-spaces"
             @click="router.push({
               name: routerModel.RouteName.Article,
               params: { bookId, articleNumber: article.number },

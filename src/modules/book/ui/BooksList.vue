@@ -52,7 +52,7 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
           :key="index"
         >
           <a
-            class="row wave"
+            class="row wave !tw-whitespace-break-spaces"
             @click="router.push({
               name: routerModel.RouteName.Book,
               params: { bookId: book.id },
@@ -71,7 +71,7 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
           :key="index"
         >
           <a
-            class="row wave"
+            class="row wave !tw-whitespace-break-spaces"
             @click="router.push({
               name: routerModel.RouteName.Article,
               params: { bookId: article.bookId, articleNumber: article.number },
