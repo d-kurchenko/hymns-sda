@@ -25,7 +25,7 @@ function terminateWorker() {
   workerState.value.isTerminated = true;
 }
 
-let workerTerminationTimeout: null | number = null;
+let workerTerminationTimeout: null | NodeJS.Timeout = null;
 watch(() => workerState.value.isInProgress, (isInProgress) => {
   if (!isInProgress) {
     workerTerminationTimeout = setTimeout(() => {
