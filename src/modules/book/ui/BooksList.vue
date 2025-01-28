@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import KeyboardArrowUpIcon from '@material-design-icons/svg/filled/keyboard_arrow_up.svg?component';
+import SearchIcon from '@material-design-icons/svg/filled/search.svg?component';
 import { TransitionSlide } from '@morev/vue-transitions';
 import { until, useFocus, useWindowScroll } from '@vueuse/core';
 import { useRouteQuery } from '@vueuse/router';
@@ -42,7 +44,7 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
         type="text"
       >
       <label v-if="isSearchLabelVisible">Глобальный поиск</label>
-      <i>search</i>
+      <i><SearchIcon /></i>
     </div>
 
     <template v-if="!searchModel.length || (!articlesResults.length && isLoading)">
@@ -102,7 +104,7 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
         tw-fixed tw-bottom-5 tw-right-5 !tw-bg-transparent tw-z-10"
         @click.prevent.stop="y = 0"
       >
-        <i>keyboard_arrow_up</i>
+        <i><KeyboardArrowUpIcon /></i>
       </button>
     </TransitionSlide>
   </div>
