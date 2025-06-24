@@ -54,7 +54,7 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
           :key="index"
         >
           <a
-            class="row wave !tw-whitespace-break-spaces"
+            class="row ripple !tw-whitespace-break-spaces"
             @click="router.push({
               name: routerModel.RouteName.Book,
               params: { bookId: book.id },
@@ -73,7 +73,7 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
           :key="index"
         >
           <a
-            class="row wave !tw-whitespace-break-spaces"
+            class="row ripple !tw-whitespace-break-spaces"
             @click="router.push({
               name: routerModel.RouteName.Article,
               params: { bookId: article.bookId, articleNumber: article.number },
@@ -101,7 +101,7 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
       <button
         v-if="y >= 300"
         class="border circle extra large-elevate secondary-border secondary-text blur
-        tw-fixed tw-bottom-5 tw-right-5 !tw-bg-transparent tw-z-10"
+        tw-fixed tw-bottom-5 tw-right-5 !tw-bg-transparent tw-z-10 ripple"
         @click.prevent.stop="y = 0"
       >
         <i><KeyboardArrowUpIcon /></i>

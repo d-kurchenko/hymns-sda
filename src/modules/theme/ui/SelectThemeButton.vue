@@ -10,7 +10,7 @@ const themeStore = themeModel.useThemeStore();
 
 <template>
   <button
-    class="transparent circle"
+    class="transparent circle ripple"
     @click="themeStore.toggleColorScheme()"
   >
     <TransitionFade
