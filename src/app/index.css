@@ -6,3 +6,7 @@
 body {
     --font-icon: none;
 }
+
+[class*=blur], .dark [class*=blur] {
+    background-color: transparent !important;
+} 

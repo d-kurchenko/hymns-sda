@@ -32,7 +32,7 @@ const isSearchLabelVisible = computed(() => !isSearchInputFocused.focused.value 
   <div class="tw-space-y-2">
     <div
       class="field suffix round border blur
-      tw-sticky tw-top-[calc(74px_+_var(--safe-area-inset-top))] tw-z-[1] !tw-bg-transparent"
+      tw-sticky tw-top-[calc(74px_+_var(--safe-area-inset-top))] tw-z-[1]"
       :class="{ label: isSearchLabelVisible }"
     >
       <input
@@ -90,7 +90,7 @@ const isSearchLabelVisible = computed(() => !isSearchInputFocused.focused.value 
       <button
         v-if="y >= 300"
         class="border circle extra large-elevate secondary-border secondary-text blur
-        tw-fixed tw-bottom-5 tw-right-5 !tw-bg-transparent tw-z-10 ripple"
+        tw-fixed tw-bottom-5 tw-right-5 tw-z-10 ripple"
         @click.prevent.stop="y = 0"
       >
         <i><KeyboardArrowUpIcon /></i>
