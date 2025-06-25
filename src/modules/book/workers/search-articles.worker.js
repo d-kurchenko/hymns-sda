@@ -13,6 +13,10 @@ onmessage = function (event) {
       includeMatches: true,
       keys: [
         {
+          name: 'number',
+          weight: 0.1,
+        },
+        {
           name: 'title',
           weight: 1,
         },

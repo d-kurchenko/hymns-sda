@@ -138,7 +138,7 @@ export const useSearchInBooks = createSharedComposable((query: MaybeRefOrGetter<
   let _lastSearchId: null | number = null;
   async function search() {
     isLoading.value = true;
-    const { eventId, promise } = await sendSearchCommand(toValue(query), bookId);
+    const { eventId, promise } = await sendSearchCommand(toValue(query).trim(), bookId);
     _lastSearchId = eventId;
     const items = await promise;
     if (_lastSearchId === eventId) {
