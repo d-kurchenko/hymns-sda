@@ -79,7 +79,7 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
               params: { bookId: article.bookId, articleNumber: article.number },
             })"
           >
-            <div class="tw-w-full tw-space-y-2">
+            <div class="tw-w-full tw-space-y-2 tw-py-2">
               <span>{{ article.number }}. {{ article.title }}</span>
               <div>
                 <span class="tw-text-xs tw-text-[var(--on-secondary)] tw-bg-[var(--secondary)] tw-rounded-3xl tw-px-1 tw-py-1">
