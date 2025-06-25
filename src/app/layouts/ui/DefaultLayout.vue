@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import ArrowBackIcon from '@material-design-icons/svg/filled/arrow_back.svg?component';
+import { TransitionFade } from '@morev/vue-transitions';
 import { ArticleAppearanceButton } from 'src/modules/book';
 import { routerModel } from 'src/modules/router';
 import { SelectThemeButton } from 'src/modules/theme';
-
 </script>
 
 <template>
@@ -26,7 +26,12 @@ import { SelectThemeButton } from 'src/modules/theme';
       </div>
 
       <div class="tw-flex tw-gap-2">
-        <ArticleAppearanceButton v-if="$route.name === routerModel.RouteName.Article" />
+        <TransitionFade
+          mode="out-in"
+          :duration="200"
+        >
+          <ArticleAppearanceButton v-if="$route.name === routerModel.RouteName.Article" />
+        </TransitionFade>
         <SelectThemeButton class="tw-m-0" />
       </div>
     </div>
@@ -42,7 +47,7 @@ import { SelectThemeButton } from 'src/modules/theme';
 <style>
 .collapse-enter-active,
 .collapse-leave-active {
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 .collapse-enter-from,

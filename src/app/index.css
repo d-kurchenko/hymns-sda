@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
-    --font-icon: none;
+  --font-icon: none;
 }
 
-[class*=blur], .dark [class*=blur] {
-    background-color: transparent !important;
-} 
+[class*='blur'],
+.dark [class*='blur'] {
+  background-color: transparent !important;
+}

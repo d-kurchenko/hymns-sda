@@ -15,7 +15,7 @@ const themeStore = themeModel.useThemeStore();
   >
     <TransitionFade
       mode="out-in"
-      :duration="100"
+      :duration="200"
     >
       <i v-if="themeStore.colorScheme.value === 'light'"><LightModeIcon /></i>
       <i v-else-if="themeStore.colorScheme.value === 'dark'"><DarkModeIcon /></i>
