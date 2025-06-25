@@ -3,21 +3,24 @@ import ArrowBackIcon from '@material-design-icons/svg/filled/arrow_back.svg?comp
 import { ArticleAppearanceButton } from 'src/modules/book';
 import { routerModel } from 'src/modules/router';
 import { SelectThemeButton } from 'src/modules/theme';
+
 </script>
 
 <template>
   <div class="tw-h-full tw-flex tw-flex-1 tw-flex-col tw-pb-[var(--safe-area-inset-bottom)]">
     <div class="tw-pt-[calc(0.5rem_+_var(--safe-area-inset-top))] tw-pb-2 tw-px-4 tw-flex tw-justify-between tw-items-center tw-select-none tw-sticky tw-top-0 tw-z-10 blur tw-border-b tw-border-[var(--outline)]">
       <div class="tw-flex tw-items-center">
-        <button
-          v-if="$router.options.history.state.back"
-          class="transparent circle ripple"
-          @click="$router.back()"
-        >
-          <i><ArrowBackIcon /></i>
-        </button>
+        <Transition name="collapse">
+          <div
+            v-if="$route.name !== routerModel.RouteName.Main"
+            class="circle ripple tw-h-10 tw-w-10 tw-mr-2 tw-flex tw-justify-center tw-items-center tw-overflow-hidden"
+            @click="$router.back()"
+          >
+            <i><ArrowBackIcon /></i>
+          </div>
+        </Transition>
 
-        <div class="tw-text-2xl tw-font-extrabold tw-italic tw-ms-2">
+        <div class="tw-text-2xl tw-font-extrabold tw-italic">
           Гимны АСД
         </div>
       </div>
@@ -35,3 +38,19 @@ import { SelectThemeButton } from 'src/modules/theme';
     </div>
   </div>
 </template>
+
+<style>
+.collapse-enter-active,
+.collapse-leave-active {
+  transition: all .2s ease;
+}
+
+.collapse-enter-from,
+.collapse-leave-to {
+  opacity: 0;
+  transform: translateX(-8px) scale(0.5);
+  width: 0px !important;
+  height: 0px !important;
+  margin-right: 0px !important;
+}
+</style>
