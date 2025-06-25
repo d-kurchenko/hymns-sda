@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import { bookLib } from '..';
+import { useArticleAppearance } from '../lib';
 
 const route = useRoute();
+
+const { fontSize } = useArticleAppearance();
 
 const bookId = Number(route.params.bookId);
 const articleNumber = Number(route.params.articleNumber);
@@ -15,10 +18,13 @@ const article = book.articles.find(article => article.number === articleNumber);
 <template>
   <div
     v-if="article"
+    :style="{
+      fontSize: `${fontSize}px`,
+    }"
     class="article-renderer tw-flex tw-flex-col tw-items-center tw-grow"
   >
     <div
-      class="tw-w-fit tw-max-w-full tw-overflow-auto tw-grow"
+      class="tw-w-fit tw-max-w-full tw-grow"
       v-html="article.content"
     />
   </div>
@@ -27,24 +33,32 @@ const article = book.articles.find(article => article.number === articleNumber);
 <style lang="postcss">
 .article-renderer {
   h1 {
-    @apply !tw-text-4xl !tw-font-bold;
+    font-size: 2.25em !important;
+    line-height: 1.5em !important;
+    font-weight: 700 !important;
   }
 
   h3 {
-    @apply tw-text-xl tw-font-bold;
+    font-size: 1.25em;
+    line-height: 0.75em;
+    font-weight: 700;
   }
 
   p {
-    @apply tw-text-3xl;
+    font-size: 1.875em;
+    line-height: 1.25em;
   }
 
   i {
     all: unset;
-    @apply tw-italic;
+    font-style: italic;
   }
 
   pre {
-    @apply tw-whitespace-pre tw-w-fit tw-text-xl;
+    white-space: pre;
+    font-size: 1.25em;
+    line-height: 1.5em;
+    overflow: auto;
   }
 }
 </style>

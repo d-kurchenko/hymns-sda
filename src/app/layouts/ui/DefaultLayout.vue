@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ArticleAppearanceButton } from 'src/modules/book';
+import { routerModel } from 'src/modules/router';
 import { SelectThemeButton } from 'src/modules/theme';
 </script>
 
@@ -8,7 +10,11 @@ import { SelectThemeButton } from 'src/modules/theme';
       <div class="tw-text-2xl tw-font-extrabold tw-italic">
         Гимны АСД
       </div>
-      <SelectThemeButton class="tw-m-0" />
+
+      <div class="tw-flex tw-gap-2">
+        <ArticleAppearanceButton v-if="$route.name === routerModel.RouteName.Article" />
+        <SelectThemeButton class="tw-m-0" />
+      </div>
     </div>
 
     <div class="tw-flex tw-flex-col tw-flex-1 tw-px-6 tw-py-4">
