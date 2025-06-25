@@ -40,7 +40,7 @@ const article = book.articles.find(article => article.number === articleNumber);
 
   h3 {
     font-size: 1.25em;
-    line-height: 0.75em;
+    line-height: 1.2em;
     font-weight: 700;
   }
 
