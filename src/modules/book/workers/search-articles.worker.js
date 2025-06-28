@@ -14,7 +14,7 @@ onmessage = function (event) {
       keys: [
         {
           name: 'number',
-          weight: 0.1,
+          weight: 0.3,
         },
         {
           name: 'title',
