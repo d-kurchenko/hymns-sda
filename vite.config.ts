@@ -11,16 +11,25 @@ export default defineConfig({
     vue(),
     svgLoader(),
     {
-      name: 'remove-material-icons',
+      name: 'purge-beer-css',
       enforce: 'pre',
       transform(code, id) {
         if (id.includes('beer.min.css')) {
-          const materialFontsImportsRegexp = /@font-face\s*\{[^}]*font-family:\s*Material Symbols \w+;[^}]*\}/g;
-          const hasMaterialFontsImports = materialFontsImportsRegexp.test(code);
-          if (hasMaterialFontsImports) {
-            return code.replace(materialFontsImportsRegexp, '');
+          const regexpsToPurge = [
+            /@font-face\s*\{[^}]*font-family:\s*Material Symbols \w+;[^}]*\}/g,
+            /loading-indicator\.svg/g,
+            /boom\.svg/g,
+          ];
+
+          for (const regexp of regexpsToPurge) {
+            if (regexp.test(code)) {
+              code = code.replace(regexp, '');
+            }
           }
+
+          return code;
         }
+
         return code;
       },
     },
@@ -34,5 +43,8 @@ export default defineConfig({
     postcss: {
       plugins: [tailwindNesting(), tailwind(), autoprefixer()],
     },
+  },
+  esbuild: {
+    legalComments: 'none',
   },
 });
