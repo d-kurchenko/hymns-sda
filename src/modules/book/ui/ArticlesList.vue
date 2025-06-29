@@ -40,7 +40,7 @@ const isSearchLabelVisible = computed(() => !isSearchInputFocused.focused.value 
         v-model="searchModel"
         type="text"
       >
-      <label v-if="isSearchLabelVisible">Поиск</label>
+      <label v-if="isSearchLabelVisible">{{ $t('articlesList.search.placeholder') }}</label>
       <i><SearchIcon /></i>
     </div>
 

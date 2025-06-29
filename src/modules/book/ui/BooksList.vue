@@ -43,7 +43,7 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
         v-model="searchModel"
         type="text"
       >
-      <label v-if="isSearchLabelVisible">Глобальный поиск</label>
+      <label v-if="isSearchLabelVisible">{{ $t('booksList.searchArticles.placeholder') }}</label>
       <i><SearchIcon /></i>
     </div>
 

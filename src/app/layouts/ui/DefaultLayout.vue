@@ -13,7 +13,7 @@ import { SelectThemeButton } from 'src/modules/theme';
         <Transition name="collapse">
           <div
             v-if="$route.name !== routerModel.RouteName.Main"
-            class="circle ripple tw-h-10 tw-w-10 tw-mr-2 tw-flex tw-justify-center tw-items-center tw-overflow-hidden"
+            class="circle ripple tw-h-10 tw-w-10 tw-mr-2 tw-flex tw-justify-center tw-items-center tw-overflow-hidden tw-cursor-pointer"
             @click="$router.back()"
           >
             <i><ArrowBackIcon /></i>
@@ -21,7 +21,7 @@ import { SelectThemeButton } from 'src/modules/theme';
         </Transition>
 
         <div class="tw-text-2xl tw-font-extrabold tw-italic">
-          Гимны АСД
+          {{ $t('title') }}
         </div>
       </div>
 
