@@ -1,5 +1,6 @@
 {
   "title": "Hymns SDA",
+  "common.noResultsFound": "No results found for \"{0}\"",
   "booksList.searchArticles.placeholder": "Global search",
   "articlesList.search.placeholder": "Search"
 }

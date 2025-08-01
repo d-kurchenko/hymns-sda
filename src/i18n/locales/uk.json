@@ -1,5 +1,6 @@
 {
   "title": "Гімни АСД",
+  "common.noResultsFound": "Не знайдено результатів для \"{0}\"",
   "booksList.searchArticles.placeholder": "Глобальний пошук",
   "articlesList.search.placeholder": "Пошук"
 }

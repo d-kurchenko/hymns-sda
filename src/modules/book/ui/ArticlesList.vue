@@ -83,7 +83,7 @@ const isSearchLabelVisible = computed(() => !isSearchInputFocused.focused.value 
     </template>
 
     <div v-else-if="!isLoading">
-      Не найдено результатов для: "{{ searchModel }}"...
+      {{ $t('common.noResultsFound', [searchModel]) }}
     </div>
 
     <TransitionSlide :offset="[0, 16]">

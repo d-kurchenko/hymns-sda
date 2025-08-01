@@ -94,7 +94,7 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
     </template>
 
     <div v-else-if="!isLoading">
-      Не найдено результатов для: "{{ searchModel }}"...
+      {{ $t('common.noResultsFound', [searchModel]) }}
     </div>
 
     <TransitionSlide :offset="[0, 16]">
