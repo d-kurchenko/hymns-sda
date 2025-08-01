@@ -1,8 +1,5 @@
-import { fileURLToPath, URL } from 'node:url';
+import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
-import autoprefixer from 'autoprefixer';
-import tailwind from 'tailwindcss';
-import tailwindNesting from 'tailwindcss/nesting';
 import { defineConfig } from 'vite';
 import svgLoader from 'vite-svg-loader';
 
@@ -10,6 +7,7 @@ export default defineConfig({
   plugins: [
     vue(),
     svgLoader(),
+    tailwindcss(),
     {
       name: 'purge-beer-css',
       enforce: 'pre',
@@ -36,12 +34,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      src: fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
-  css: {
-    postcss: {
-      plugins: [tailwindNesting(), tailwind(), autoprefixer()],
+      src: '/src',
     },
   },
   esbuild: {

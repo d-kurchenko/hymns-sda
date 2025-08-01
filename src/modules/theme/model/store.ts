@@ -1,5 +1,6 @@
 import type { ColorMode, ColorScheme } from './types';
 import { createSharedComposable, useLocalStorage, usePreferredColorScheme, watchImmediate } from '@vueuse/core';
+import { ui } from 'beercss/scoped';
 import { localStorageModel } from 'src/modules/local-storage';
 import { computed, watch } from 'vue';
 import { syncSafeAreaContentColor } from '../lib';

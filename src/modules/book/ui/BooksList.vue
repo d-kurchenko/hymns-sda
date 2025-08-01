@@ -32,10 +32,10 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
 </script>
 
 <template>
-  <div class="tw-space-y-2">
+  <div class="tw:flex tw:flex-col tw:gap-y-2">
     <div
       class="field suffix round border blur
-      tw-sticky tw-top-[calc(74px_+_var(--safe-area-inset-top))] tw-z-10"
+      tw:sticky tw:top-[calc(74px_+_var(--safe-area-inset-top))] tw:z-10 tw:!mb-0"
       :class="{ label: isSearchLabelVisible }"
     >
       <input
@@ -54,7 +54,7 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
           :key="index"
         >
           <a
-            class="row ripple !tw-whitespace-break-spaces"
+            class="row ripple tw:!whitespace-break-spaces"
             @click="router.push({
               name: routerModel.RouteName.Book,
               params: { bookId: book.id },
@@ -73,16 +73,16 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
           :key="index"
         >
           <a
-            class="row ripple !tw-whitespace-break-spaces"
+            class="row ripple tw:!whitespace-break-spaces"
             @click="router.push({
               name: routerModel.RouteName.Article,
               params: { bookId: article.bookId, articleNumber: article.number },
             })"
           >
-            <div class="tw-w-full tw-space-y-2 tw-py-2">
+            <div class="tw:w-full tw:flex tw:flex-col tw:gap-y-2 tw:py-2">
               <span>{{ article.number }}. {{ article.title }}</span>
               <div>
-                <span class="tw-text-xs tw-text-[var(--on-secondary)] tw-bg-[var(--secondary)] tw-rounded-3xl tw-px-1 tw-py-1">
+                <span class="tw:text-xs tw:text-(--on-secondary) tw:bg-(--secondary) tw:rounded-3xl tw:px-1 tw:py-1">
                   {{ article.bookTitle }}
                 </span>
               </div>
@@ -101,7 +101,7 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
       <button
         v-if="y >= 300"
         class="border circle extra large-elevate secondary-border secondary-text blur
-        tw-fixed tw-bottom-5 tw-right-5 tw-z-10 ripple"
+        tw:fixed tw:bottom-5 tw:right-5 tw:z-10 ripple"
         @click.prevent.stop="y = 0"
       >
         <i><KeyboardArrowUpIcon /></i>

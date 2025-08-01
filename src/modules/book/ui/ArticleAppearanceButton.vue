@@ -8,12 +8,16 @@ const { fontSize } = bookLib.useArticleAppearance();
 </script>
 
 <template>
-  <nav class="!tw-m-0">
-    <button class="transparent circle ripple">
-      <i><FormatPaintIcon /></i>
-    </button>
-    <menu class="bottom tw-top-10 no-wrap left right-align tw-overflow-visible">
-      <li class="tw-gap-0 hover:tw-bg-inherit tw-cursor-default">
+  <button
+    class="transparent circle ripple"
+  >
+    <i><FormatPaintIcon /></i>
+
+    <menu
+      id="menu"
+      class="bottom tw:top-10 no-wrap left right-align tw:overflow-visible"
+    >
+      <li class="tw:gap-0 hover:tw:bg-inherit tw:cursor-default">
         <i><TextDecreaseIcon /></i>
         <label class="slider small">
           <span />
@@ -28,5 +32,5 @@ const { fontSize } = bookLib.useArticleAppearance();
         <i><TextIncreaseIcon /></i>
       </li>
     </menu>
-  </nav>
+  </button>
 </template>

@@ -21,10 +21,10 @@ const article = book.articles.find(article => article.number === articleNumber);
     :style="{
       fontSize: `${fontSize}px`,
     }"
-    class="article-renderer tw-flex tw-flex-col tw-items-center tw-grow"
+    class="article-renderer tw:flex tw:flex-col tw:items-center tw:grow"
   >
     <div
-      class="tw-w-fit tw-max-w-full tw-grow tw-break-words"
+      class="tw:w-fit tw:max-w-full tw:grow tw:break-words"
       v-html="article.content"
     />
   </div>
