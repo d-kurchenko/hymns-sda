@@ -82,9 +82,9 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
             <div class="tw:w-full tw:flex tw:flex-col tw:gap-y-2 tw:py-2">
               <span>{{ article.number }}. {{ article.title }}</span>
               <div>
-                <span class="tw:text-xs tw:text-(--on-secondary) tw:bg-(--secondary) tw:rounded-3xl tw:px-1 tw:py-1">
+                <div class="tw:text-xs tw:text-(--on-secondary) tw:bg-(--secondary) tw:rounded-3xl tw:px-1 tw:pt-0.5 tw:w-fit">
                   {{ article.bookTitle }}
-                </span>
+                </div>
               </div>
             </div>
           </a>
