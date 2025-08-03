@@ -2,10 +2,11 @@
 import KeyboardArrowUpIcon from '@material-design-icons/svg/filled/keyboard_arrow_up.svg?component';
 import SearchIcon from '@material-design-icons/svg/filled/search.svg?component';
 import { TransitionSlide } from '@morev/vue-transitions';
+import { useWindowVirtualizer } from '@tanstack/vue-virtual';
 import { until, useFocus, useWindowScroll } from '@vueuse/core';
 import { useRouteQuery } from '@vueuse/router';
 import { routerModel } from 'src/modules/router';
-import { computed, ref } from 'vue';
+import { computed, ref, useTemplateRef } from 'vue';
 import { useRouter } from 'vue-router';
 import { bookLib, bookModel } from '..';
 
@@ -29,6 +30,17 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
       scrollTo({ top: restoredScrollTop });
     });
 }
+
+const virtualizerWrapper = useTemplateRef('virtualizerWrapper');
+const rowVirtualizer = useWindowVirtualizer(
+  computed(() => ({
+    count: articlesResults.value.length,
+    estimateSize: () => 67,
+    scrollMargin: virtualizerWrapper.value?.offsetTop ?? 0,
+    enabled: !!(!isLoading.value && searchModel.value.length && articlesResults.value.length),
+  } satisfies Parameters<typeof useWindowVirtualizer>[0])),
+);
+const virtualRows = computed(() => rowVirtualizer.value.getVirtualItems());
 </script>
 
 <template>
@@ -74,29 +86,44 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
     </template>
 
     <template v-else-if="articlesResults.length">
-      <article>
-        <template
-          v-for="({ item: article }, index) of articlesResults"
-          :key="index"
+      <article ref="virtualizerWrapper">
+        <div
+          class="tw:relative tw:w-full"
+          :style="{ height: `${rowVirtualizer.getTotalSize()}px` }"
+          style="overflow-anchor: none;"
         >
-          <a
-            class="row ripple tw:!whitespace-break-spaces"
-            @click="router.push({
-              name: routerModel.RouteName.Article,
-              params: { bookId: article.bookId, articleNumber: article.number },
-            })"
+          <div
+            class="tw:absolute tw:top-0 tw:left-0 tw:w-full"
+            :style="{
+              transform: `translateY(${
+                virtualRows[0]?.start - rowVirtualizer.options.scrollMargin || 0
+              }px)`,
+            }"
           >
-            <div class="tw:w-full tw:flex tw:flex-col tw:gap-y-2 tw:py-2">
-              <span>{{ article.number }}. {{ article.title }}</span>
-              <div>
-                <div class="tw:text-xs tw:text-(--on-secondary) tw:bg-(--secondary) tw:rounded-3xl tw:px-1 tw:pt-0.5 tw:w-fit">
-                  {{ article.bookTitle }}
+            <div
+              v-for="virtualRow in virtualRows"
+              :key="(virtualRow.key as string)"
+              :ref="(element) => rowVirtualizer.measureElement((element as any))"
+              :data-index="virtualRow.index"
+            >
+              <a
+                class="row ripple tw:!whitespace-break-spaces tw:h-full"
+                @click="router.push({
+                  name: routerModel.RouteName.Article,
+                  params: { bookId: articlesResults[virtualRow.index].item.bookId, articleNumber: articlesResults[virtualRow.index].item.number },
+                })"
+              >
+                <div class="tw:w-full tw:flex tw:flex-col tw:items-start tw:gap-y-2 tw:py-2">
+                  <span>{{ articlesResults[virtualRow.index].item.number }}. {{ articlesResults[virtualRow.index].item.title }}</span>
+                  <div class="tw:text-xs tw:text-(--on-secondary) tw:bg-(--secondary) tw:rounded-3xl tw:px-1 tw:pt-0.5 tw:max-w-full tw:truncate">
+                    {{ articlesResults[virtualRow.index].item.bookTitle }}
+                  </div>
                 </div>
-              </div>
+              </a>
+              <hr v-if="virtualRow.index !== articlesResults.length - 1">
             </div>
-          </a>
-          <hr v-if="index !== articlesResults.length - 1">
-        </template>
+          </div>
+        </div>
       </article>
     </template>
 
@@ -106,7 +133,7 @@ if (restoredScrollTop && restoredScrollTop > window.scrollY) {
 
     <TransitionSlide :offset="[0, 16]">
       <button
-        v-if="y >= 300"
+        v-if="(rowVirtualizer.scrollOffset ?? 0) >= 300"
         class="border circle extra large-elevate secondary-border secondary-text blur
         tw:fixed tw:bottom-5 tw:right-5 tw:z-10 ripple"
         @click.prevent.stop="y = 0"
