@@ -29,7 +29,7 @@ const isSearchLabelVisible = computed(() => !isSearchInputFocused.focused.value 
 </script>
 
 <template>
-  <div class="tw:flex tw:flex-col tw:gap-y-2">
+  <div class="tw:flex-1 tw:flex tw:flex-col tw:gap-y-2">
     <div
       class="field suffix round border blur
       tw:sticky tw:top-[calc(74px_+_var(--safe-area-inset-top))] tw:z-[1] tw:!mb-0"
@@ -44,7 +44,14 @@ const isSearchLabelVisible = computed(() => !isSearchInputFocused.focused.value 
       <i><SearchIcon /></i>
     </div>
 
-    <template v-if="!searchModel.length || (!articlesResults.length && isLoading)">
+    <div
+      v-if="isLoading"
+      class="tw:flex-1 tw:w-full tw:flex tw:justify-center tw:items-center tw:opacity-30"
+    >
+      <div class="shape loading-indicator extra" />
+    </div>
+
+    <template v-else-if="!searchModel.length">
       <article>
         <template
           v-for="(article, index) of book.articles"

@@ -3,7 +3,5 @@ import { BooksList } from 'src/modules/book/ui';
 </script>
 
 <template>
-  <div>
-    <BooksList />
-  </div>
+  <BooksList />
 </template>
