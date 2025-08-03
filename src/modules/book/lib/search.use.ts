@@ -2,6 +2,7 @@ import type { FuseResult } from 'fuse.js';
 import type { MaybeRefOrGetter } from 'vue';
 import type { Article } from '../model';
 import { createSharedComposable, until, watchImmediate } from '@vueuse/core';
+import { SharedUtils } from 'src/shared';
 import { ref, shallowRef, toValue, watch } from 'vue';
 import { allArticles } from '../model';
 import { useBook } from './book.use';
@@ -149,9 +150,13 @@ export const useSearchInBooks = createSharedComposable((query: MaybeRefOrGetter<
     }
   }
 
+  const smartDebouncedSearch = SharedUtils.useSmartDebounceFn(search, 400, 400);
+
   watchImmediate(() => toValue(query), (query) => {
     if (query.length) {
-      return search();
+      isLoading.value = true;
+      smartDebouncedSearch();
+      return;
     }
     resultItems.value = [];
     isLoading.value = false;
