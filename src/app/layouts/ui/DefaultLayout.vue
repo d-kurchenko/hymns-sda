@@ -9,18 +9,18 @@ import { SelectThemeButton } from 'src/modules/theme';
 <template>
   <div class="tw:h-full tw:flex tw:flex-1 tw:flex-col tw:pb-(--safe-area-inset-bottom)]">
     <div class="tw:pt-[calc(0.5rem_+_var(--safe-area-inset-top))] tw:pb-2 tw:px-4 tw:flex tw:justify-between tw:items-center tw:select-none tw:sticky tw:top-0 tw:z-10 blur tw:border-b tw:border-(--outline)">
-      <div class="tw:flex tw:items-center">
+      <div class="tw:flex tw:items-center tw:overflow-hidden">
         <Transition name="collapse">
           <div
             v-if="$route.name !== routerModel.RouteName.Main"
-            class="circle ripple tw:h-10 tw:w-10 tw:mr-2 tw:flex tw:justify-center tw:items-center tw:overflow-hidden tw:cursor-pointer"
+            class="circle ripple tw:h-10 tw:w-10 tw:mr-2 tw:flex tw:justify-center tw:items-center tw:overflow-hidden tw:cursor-pointer tw:shrink-0"
             @click="$router.back()"
           >
             <i><ArrowBackIcon /></i>
           </div>
         </Transition>
 
-        <div class="tw:text-2xl tw:font-extrabold tw:italic">
+        <div class="tw:text-2xl tw:font-extrabold tw:italic tw:truncate tw:max-[330px]:text-xl">
           {{ $t('title') }}
         </div>
       </div>
