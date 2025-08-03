@@ -20,7 +20,9 @@ const { resultItems: articlesResults, isLoading } = bookLib.useSearchInBooks(sea
 const { y } = useWindowScroll({ behavior: 'smooth' });
 const searchInputEl = ref<HTMLInputElement | null>(null);
 const isSearchInputFocused = useFocus(searchInputEl);
-const isSearchLabelVisible = computed(() => !isSearchInputFocused.focused.value || y.value <= 80);
+const isSearchLabelHidden = computed(() =>
+  y.value > 80 && (isSearchInputFocused.focused.value || searchModel.value.length),
+);
 
 const restoredScrollTop = (router.options.history.state.scroll as any)?.top as number | null;
 if (restoredScrollTop && restoredScrollTop > window.scrollY) {
@@ -48,14 +50,14 @@ const virtualRows = computed(() => rowVirtualizer.value.getVirtualItems());
     <div
       class="field suffix round border blur
       tw:sticky tw:top-[calc(74px_+_var(--safe-area-inset-top))] tw:z-10 tw:!mb-0"
-      :class="{ label: isSearchLabelVisible }"
+      :class="{ label: !isSearchLabelHidden }"
     >
       <input
         :ref="(el) => searchInputEl = (el as HTMLInputElement)"
         v-model="searchModel"
         type="text"
       >
-      <label v-if="isSearchLabelVisible">{{ $t('booksList.searchArticles.placeholder') }}</label>
+      <label v-if="!isSearchLabelHidden">{{ $t('booksList.searchArticles.placeholder') }}</label>
       <i><SearchIcon /></i>
     </div>
 
