@@ -1,7 +1,9 @@
 import type { FuseResult } from 'fuse.js';
+import type { MaybeRefOrGetter } from 'vue';
+import type { Article } from '../model';
 import { createSharedComposable, until, watchImmediate } from '@vueuse/core';
-import { type MaybeRefOrGetter, ref, shallowRef, toValue, watch } from 'vue';
-import { allArticles, type Article } from '../model';
+import { ref, shallowRef, toValue, watch } from 'vue';
+import { allArticles } from '../model';
 import { useBook } from './book.use';
 
 const WORKER_LIFE_TIME = 30_000;
