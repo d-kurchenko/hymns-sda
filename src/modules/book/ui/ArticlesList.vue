@@ -86,11 +86,11 @@ const articlesResultsVirtualizer = useWindowVirtualizer(
     <article
       v-else-if="!searchModel.length"
       ref="articlesWrapper"
+      style="overflow-anchor: none;"
     >
       <div
         class="tw:relative tw:w-full"
         :style="{ height: `${articlesVirtualizer.getTotalSize()}px` }"
-        style="overflow-anchor: none;"
       >
         <div
           class="tw:absolute tw:top-0 tw:left-0 tw:w-full"
@@ -123,11 +123,11 @@ const articlesResultsVirtualizer = useWindowVirtualizer(
     <article
       v-else-if="articlesResults.length"
       ref="articlesResultsWrapper"
+      style="overflow-anchor: none;"
     >
       <div
         class="tw:relative tw:w-full"
         :style="{ height: `${articlesResultsVirtualizer.getTotalSize()}px` }"
-        style="overflow-anchor: none;"
       >
         <div
           class="tw:absolute tw:top-0 tw:left-0 tw:w-full"

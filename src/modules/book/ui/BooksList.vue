@@ -88,11 +88,13 @@ const virtualRows = computed(() => rowVirtualizer.value.getVirtualItems());
     </template>
 
     <template v-else-if="articlesResults.length">
-      <article ref="virtualizerWrapper">
+      <article
+        ref="virtualizerWrapper"
+        style="overflow-anchor: none;"
+      >
         <div
           class="tw:relative tw:w-full"
           :style="{ height: `${rowVirtualizer.getTotalSize()}px` }"
-          style="overflow-anchor: none;"
         >
           <div
             class="tw:absolute tw:top-0 tw:left-0 tw:w-full"
