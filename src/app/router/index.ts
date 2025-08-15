@@ -20,6 +20,11 @@ const router = createRouter({
       component: async () => (await import('src/pages/')).ArticlePage,
     },
   ],
+  scrollBehavior(to) {
+    if (to.name === routerModel.RouteName.Article) {
+      return { top: 0 };
+    }
+  },
 });
 
 export default router;
