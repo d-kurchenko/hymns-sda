@@ -3,6 +3,12 @@ import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
 import svgLoader from 'vite-svg-loader';
 
+const purgeBeerRegexps = [
+  /@font-face\s*\{[^}]*font-family:\s*Material Symbols \w+;[^}]*\}/g,
+  /loading-indicator\.svg/g,
+  /boom\.svg/g,
+];
+
 export default defineConfig({
   plugins: [
     vue(),
@@ -13,13 +19,7 @@ export default defineConfig({
       enforce: 'pre',
       transform(code, id) {
         if (id.includes('beer.min.css')) {
-          const regexpsToPurge = [
-            /@font-face\s*\{[^}]*font-family:\s*Material Symbols \w+;[^}]*\}/g,
-            /loading-indicator\.svg/g,
-            /boom\.svg/g,
-          ];
-
-          for (const regexp of regexpsToPurge) {
+          for (const regexp of purgeBeerRegexps) {
             if (regexp.test(code)) {
               code = code.replace(regexp, '');
             }
@@ -37,7 +37,11 @@ export default defineConfig({
       src: '/src',
     },
   },
-  esbuild: {
-    legalComments: 'none',
+  build: {
+    rolldownOptions: {
+      output: {
+        comments: false,
+      },
+    },
   },
 });

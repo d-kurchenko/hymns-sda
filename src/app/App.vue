@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { LayoutName } from 'src/app/layouts';
 import type { Component } from 'vue';
-import { DefaultLayout } from 'src/app/layouts';
-import { computed, defineAsyncComponent } from 'vue';
+import { DefaultLayout, EmptyLayout } from 'src/app/layouts';
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 const layoutsMap: Record<LayoutName, () => Component> = {
   default: () => DefaultLayout,
-  empty: () => defineAsyncComponent(() => import('src/app/layouts/ui/EmptyLayout.vue')),
+  empty: () => EmptyLayout,
 };
 
 const route = useRoute();
