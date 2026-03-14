@@ -94,3 +94,61 @@ body.dark {
   --surface-container-high: #272b2b;
   --surface-container-highest: #323536;
 }
+
+/* ─── Page slide transitions */
+:root {
+  --page-transition-duration: 0.2s;
+  --page-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page-transition-container {
+  flex: 1;
+  display: grid;
+  overflow-x: clip;
+}
+
+.page-transition-wrapper {
+  grid-area: 1 / 1;
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface);
+}
+
+/* ── Forward: new page slides over from the right ── */
+.slide-left-enter-active {
+  transition: transform var(--page-transition-duration) var(--page-transition-easing);
+  z-index: 1;
+}
+.slide-left-leave-active {
+  transition:
+    transform var(--page-transition-duration) var(--page-transition-easing),
+    opacity var(--page-transition-duration) var(--page-transition-easing);
+}
+.slide-left-enter-from {
+  transform: translateX(100%);
+}
+.slide-left-leave-to {
+  transform: translateX(-56px);
+  opacity: 0;
+}
+
+/* ── Backward: current page slides off to the right ── */
+.slide-right-leave-active {
+  transition:
+    transform var(--page-transition-duration) var(--page-transition-easing),
+    opacity var(--page-transition-duration) var(--page-transition-easing);
+  z-index: 1;
+}
+.slide-right-enter-active {
+  transition:
+    transform var(--page-transition-duration) var(--page-transition-easing),
+    opacity var(--page-transition-duration) var(--page-transition-easing);
+}
+.slide-right-leave-to {
+  transform: translateX(100%);
+}
+.slide-right-enter-from {
+  transform: translateX(-56px);
+  opacity: 0;
+}

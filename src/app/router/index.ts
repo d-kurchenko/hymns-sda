@@ -27,4 +27,10 @@ const router = createRouter({
   },
 });
 
+router.afterEach((to, from) => {
+  const toDepth = to.path.split('/').filter(Boolean).length;
+  const fromDepth = from.path.split('/').filter(Boolean).length;
+  to.meta.transition = toDepth < fromDepth ? 'slide-right' : 'slide-left';
+});
+
 export default router;

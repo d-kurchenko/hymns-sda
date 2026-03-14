@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { RouteMeta } from 'vue-router';
 import ArrowBackIcon from '@material-design-icons/svg/filled/arrow_back.svg?component';
 import { TransitionFade } from '@morev/vue-transitions';
 import { ArticleAppearanceButton } from 'src/modules/book';
@@ -36,9 +37,16 @@ import { SelectThemeButton } from 'src/modules/theme';
       </div>
     </div>
 
-    <div class="tw:flex tw:flex-col tw:flex-1 tw:px-6 tw:py-4">
-      <RouterView v-slot="{ Component }">
-        <Component :is="Component" />
+    <div class="page-transition-container">
+      <RouterView v-slot="{ Component, route }">
+        <Transition :name="route.meta.transition || 'slide-left' as RouteMeta['transition']">
+          <div
+            :key="route.path"
+            class="page-transition-wrapper"
+          >
+            <Component :is="Component" />
+          </div>
+        </Transition>
       </RouterView>
     </div>
   </div>
