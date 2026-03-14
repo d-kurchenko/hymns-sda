@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import TrashIcon from '@material-design-icons/svg/filled/close.svg?component';
 import KeyboardArrowUpIcon from '@material-design-icons/svg/filled/keyboard_arrow_up.svg?component';
 import SearchIcon from '@material-design-icons/svg/filled/search.svg?component';
-import { TransitionSlide } from '@morev/vue-transitions';
 import { useWindowVirtualizer } from '@tanstack/vue-virtual';
 import { until, useFocus, useWindowScroll } from '@vueuse/core';
 import { useRouteQuery } from '@vueuse/router';
+import { AnimatePresence, motion } from 'motion-v';
 import { routerModel } from 'src/modules/router';
 import { computed, ref, useTemplateRef } from 'vue';
 import { useRouter } from 'vue-router';
@@ -49,7 +50,7 @@ const virtualRows = computed(() => rowVirtualizer.value.getVirtualItems());
   <div class="tw:flex-1 tw:flex tw:flex-col tw:gap-y-2">
     <div
       class="field suffix round border blur
-      tw:sticky tw:top-[calc(74px_+_var(--safe-area-inset-top))] tw:z-10 tw:!mb-0"
+      tw:sticky tw:top-[calc(74px+var(--safe-area-inset-top))] tw:z-10 tw:mb-0!"
       :class="{ label: !isSearchLabelHidden }"
     >
       <input
@@ -58,7 +59,33 @@ const virtualRows = computed(() => rowVirtualizer.value.getVirtualItems());
         type="text"
       >
       <label v-if="!isSearchLabelHidden">{{ $t('booksList.searchArticles.placeholder') }}</label>
-      <i><SearchIcon /></i>
+      <AnimatePresence
+        mode="popLayout"
+        :initial="false"
+      >
+        <motion.i
+          v-if="!searchModel.length"
+          key="search"
+          :initial="{ opacity: 0, scale: 0.5 }"
+          :animate="{ opacity: 1, scale: 1 }"
+          :exit="{ opacity: 0, scale: 0.5 }"
+          :transition="{ duration: 0.2 }"
+        >
+          <SearchIcon />
+        </motion.i>
+        <motion.i
+          v-else
+          key="trash"
+          :initial="{ opacity: 0, scale: 0.5 }"
+          :animate="{ opacity: 1, scale: 1 }"
+          :exit="{ opacity: 0, scale: 0.5 }"
+          :transition="{ duration: 0.2 }"
+          class="tw:pointer-events-auto!"
+          @click.stop="searchModel = ''"
+        >
+          <TrashIcon />
+        </motion.i>
+      </AnimatePresence>
     </div>
 
     <div
@@ -135,15 +162,23 @@ const virtualRows = computed(() => rowVirtualizer.value.getVirtualItems());
       {{ $t('common.noResultsFound', [searchModel]) }}
     </div>
 
-    <TransitionSlide :offset="[0, 16]">
-      <button
+    <AnimatePresence :initial="false">
+      <motion.button
         v-if="(rowVirtualizer.scrollOffset ?? 0) >= 300"
+        :variants="{
+          hidden: { opacity: 0, bottom: 0 },
+          visible: { opacity: 1, bottom: 'calc(var(--tw-spacing) * 5)' },
+        }"
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
+        :transition="{ duration: 0.2 }"
         class="border circle extra large-elevate secondary-border secondary-text blur
-        tw:fixed tw:bottom-5 tw:right-5 tw:z-10 ripple"
+        tw:fixed tw:right-5 tw:z-10 ripple"
         @click.prevent.stop="y = 0"
       >
         <i><KeyboardArrowUpIcon /></i>
-      </button>
-    </TransitionSlide>
+      </motion.button>
+    </AnimatePresence>
   </div>
 </template>

@@ -7,7 +7,6 @@ import { createApp } from 'vue';
 import App from './App.vue';
 
 import router from './router';
-import '@morev/vue-transitions/styles';
 import './index.css';
 
 const { activeColorMode } = themeModel.useThemeStore();
