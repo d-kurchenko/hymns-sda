@@ -113,6 +113,7 @@ body.dark {
   display: flex;
   flex-direction: column;
   background-color: var(--surface);
+  min-width: 0;
 }
 
 /* ── Forward: new page slides over from the right ── */
