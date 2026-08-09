@@ -1,7 +1,56 @@
 @import 'tailwindcss' prefix(tw);
 
 @layer utilities {
-  @import 'beercss/dist/cdn/beer.min.css';
+  /* settings (font skipped — icons come from SVGs, not Material Symbols) */
+  @import 'beercss/dist/cdn/settings/dark.css';
+  @import 'beercss/dist/cdn/settings/global.css';
+  @import 'beercss/dist/cdn/settings/light.css';
+  @import 'beercss/dist/cdn/settings/reset.css';
+  @import 'beercss/dist/cdn/settings/theme.css';
+
+  /* helpers */
+  @import 'beercss/dist/cdn/helpers/alignment.css';
+  @import 'beercss/dist/cdn/helpers/blur.css';
+  @import 'beercss/dist/cdn/helpers/elevate.css';
+  @import 'beercss/dist/cdn/helpers/form.css';
+  @import 'beercss/dist/cdn/helpers/position.css';
+  @import 'beercss/dist/cdn/helpers/ripple.css';
+  @import 'beercss/dist/cdn/helpers/size.css';
+
+  /* elements */
+  @import 'beercss/dist/cdn/elements/button.css';
+  @import 'beercss/dist/cdn/elements/field.css';
+  @import 'beercss/dist/cdn/elements/menu.css';
+  @import 'beercss/dist/cdn/elements/navigation.css';
+  @import 'beercss/dist/cdn/elements/slider.css';
+  @import 'beercss/dist/cdn/elements/tooltip.css';
+
+  /* shape: only the loading indicator (full shape.css pulls every SVG mask) */
+  .shape {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--on-primary);
+    background-color: var(--primary);
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+    border-radius: 0;
+    block-size: 3.5rem;
+    inline-size: 3.5rem;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  .shape.extra {
+    block-size: 6.5rem;
+    inline-size: 6.5rem;
+  }
+
+  .shape.loading-indicator {
+    mask-image: url('beercss/dist/cdn/loading-indicator.svg');
+  }
 }
 
 @layer base {

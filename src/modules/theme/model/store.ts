@@ -1,9 +1,14 @@
 import type { ColorMode, ColorScheme } from './types';
 import { createSharedComposable, useLocalStorage, usePreferredColorScheme, watchImmediate } from '@vueuse/core';
-import { ui } from 'beercss/scoped';
+import { ui } from 'beercss/loader';
 import { localStorageModel } from 'src/modules/local-storage';
 import { computed, watch } from 'vue';
 import { syncSafeAreaContentColor } from '../lib';
+import 'beercss/dist/cdn/settings/theme.js';
+import 'beercss/dist/cdn/helpers/ripple.js';
+import 'beercss/dist/cdn/elements/field.js';
+import 'beercss/dist/cdn/elements/menu.js';
+import 'beercss/dist/cdn/elements/slider.js';
 
 type ColorSchemeClass = Exclude<ColorScheme, 'preferred'>;
 
