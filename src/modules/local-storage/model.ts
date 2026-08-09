@@ -1,3 +1,3 @@
-export enum LocalStorageKey {
-  COLOR_SCHEME = 'color-scheme',
-}
+export const LocalStorageKey = {
+  COLOR_SCHEME: 'color-scheme',
+} as const;

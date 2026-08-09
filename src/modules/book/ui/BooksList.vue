@@ -50,7 +50,7 @@ const virtualRows = computed(() => rowVirtualizer.value.getVirtualItems());
   <div class="tw:flex-1 tw:flex tw:flex-col tw:gap-y-2">
     <div
       class="field suffix round border blur
-      tw:sticky tw:top-[calc(74px+var(--safe-area-inset-top))] tw:z-10 tw:mb-0!"
+      tw:sticky tw:top-[calc(74px+env(safe-area-inset-top))] tw:z-10 tw:mb-0!"
       :class="{ label: !isSearchLabelHidden }"
     >
       <input

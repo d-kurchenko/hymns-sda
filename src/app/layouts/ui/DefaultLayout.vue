@@ -8,8 +8,8 @@ import { SelectThemeButton } from 'src/modules/theme';
 </script>
 
 <template>
-  <div class="tw:h-full tw:flex tw:flex-1 tw:flex-col tw:pb-(--safe-area-inset-bottom)]">
-    <div class="tw:pt-[calc(0.5rem+var(--safe-area-inset-top))] tw:pb-2 tw:px-4 tw:flex tw:justify-between tw:items-center tw:select-none tw:sticky tw:top-0 tw:z-10 blur tw:border-b tw:border-(--outline)">
+  <div class="tw:h-full tw:flex tw:flex-1 tw:flex-col tw:pb-[env(safe-area-inset-bottom)]">
+    <div class="tw:pt-[calc(0.5rem+env(safe-area-inset-top))] tw:pb-2 tw:px-4 tw:flex tw:justify-between tw:items-center tw:select-none tw:sticky tw:top-0 tw:z-10 blur tw:border-b tw:border-(--outline)">
       <div class="tw:flex tw:items-center tw:overflow-hidden">
         <AnimatePresence :initial="false">
           <motion.div
