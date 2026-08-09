@@ -7,7 +7,7 @@ import { until, useFocus, useWindowScroll } from '@vueuse/core';
 import { useRouteQuery } from '@vueuse/router';
 import { AnimatePresence, motion } from 'motion-v';
 import { routerModel } from 'src/modules/router';
-import { computed, ref, useTemplateRef } from 'vue';
+import { computed, nextTick, ref, useTemplateRef } from 'vue';
 import { useRouter } from 'vue-router';
 import { bookLib, bookModel } from '..';
 
@@ -29,8 +29,11 @@ const restoredScrollTop = (router.options.history.state.scroll as any)?.top as n
 if (restoredScrollTop && restoredScrollTop > window.scrollY) {
   until(isLoading)
     .toBe(false)
-    .then(() => {
-      scrollTo({ top: restoredScrollTop });
+    .then(async () => {
+      await nextTick();
+      requestAnimationFrame(() => {
+        scrollTo({ top: restoredScrollTop });
+      });
     });
 }
 

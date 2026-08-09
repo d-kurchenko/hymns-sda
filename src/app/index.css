@@ -19,7 +19,11 @@
 
   /* elements */
   @import 'beercss/dist/cdn/elements/button.css';
+  @import 'beercss/dist/cdn/elements/card.css';
+  @import 'beercss/dist/cdn/elements/divider.css';
   @import 'beercss/dist/cdn/elements/field.css';
+  @import 'beercss/dist/cdn/elements/icon.css';
+  @import 'beercss/dist/cdn/elements/media.css';
   @import 'beercss/dist/cdn/elements/menu.css';
   @import 'beercss/dist/cdn/elements/navigation.css';
   @import 'beercss/dist/cdn/elements/slider.css';

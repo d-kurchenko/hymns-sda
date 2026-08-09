@@ -7,7 +7,7 @@ import { until, useFocus, useWindowScroll } from '@vueuse/core';
 import { useRouteQuery } from '@vueuse/router';
 import { AnimatePresence, motion } from 'motion-v';
 import { routerModel } from 'src/modules/router';
-import { computed, ref, useTemplateRef } from 'vue';
+import { computed, nextTick, ref, useTemplateRef } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import { bookLib } from '..';
@@ -36,8 +36,11 @@ const restoredScrollTop = (router.options.history.state.scroll as any)?.top as n
 if (restoredScrollTop && restoredScrollTop > window.scrollY) {
   until(isLoading)
     .toBe(false)
-    .then(() => {
-      scrollTo({ top: restoredScrollTop });
+    .then(async () => {
+      await nextTick();
+      requestAnimationFrame(() => {
+        scrollTo({ top: restoredScrollTop });
+      });
     });
 }
 
@@ -66,7 +69,7 @@ const articlesResultsVirtualizer = useWindowVirtualizer(
   <div class="tw:flex-1 tw:flex tw:flex-col tw:gap-y-2">
     <div
       class="field suffix round border blur
-      tw:sticky tw:top-[calc(74px+env(safe-area-inset-top))] tw:z-1 tw:mb-0!"
+      tw:sticky tw:top-[calc(74px+env(safe-area-inset-top))] tw:z-10 tw:mb-0!"
       :class="{ label: !isSearchLabelHidden }"
     >
       <input
