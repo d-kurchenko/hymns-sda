@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - "v*"
+      - 'v*'
 
 concurrency:
   group: play-internal
@@ -13,7 +13,7 @@ jobs:
   play:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     steps:
       - name: Check out
         uses: actions/checkout@v4
@@ -39,12 +39,12 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "21"
+          java-version: '21'
 
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: "24"
+          node-version: '24'
           cache: npm
 
       - name: Install dependencies
@@ -82,14 +82,14 @@ jobs:
           echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > android/upload-keystore.jks
           test -s android/upload-keystore.jks
 
-      - name: Build release bundle
+      - name: Build Android release artifacts
         working-directory: android
         env:
           ANDROID_KEYSTORE_PATH: ${{ github.workspace }}/android/upload-keystore.jks
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        run: ./gradlew bundleRelease
+        run: ./gradlew bundleRelease assembleRelease
 
       - name: Upload to Play internal track
         uses: r0adkll/upload-google-play@v1.1.5
@@ -99,3 +99,23 @@ jobs:
           releaseFiles: android/app/build/outputs/bundle/release/*.aab
           track: internal
           status: completed
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          shopt -s nullglob
+          apks=(android/app/build/outputs/apk/release/*.apk)
+          if [ "${#apks[@]}" -ne 1 ]; then
+            echo "::error::Expected exactly one release APK, found ${#apks[@]}"
+            exit 1
+          fi
+
+          if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" "${apks[0]}" --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" "${apks[0]}" \
+              --verify-tag \
+              --generate-notes \
+              --title "$GITHUB_REF_NAME"
+          fi
