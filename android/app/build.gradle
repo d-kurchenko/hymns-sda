@@ -1,5 +1,25 @@
 apply plugin: 'com.android.application'
 
+// Release signing comes from CI env vars, or from android/keystore.properties locally.
+// Properties file keys: storeFile, storePassword, keyAlias, keyPassword.
+// storeFile is an absolute path, or a path relative to the android/ directory.
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+def releaseStorePath = System.getenv("ANDROID_KEYSTORE_PATH") ?: keystoreProperties.getProperty("storeFile")
+def releaseStorePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD") ?: keystoreProperties.getProperty("storePassword")
+def releaseKeyAlias = System.getenv("ANDROID_KEY_ALIAS") ?: keystoreProperties.getProperty("keyAlias")
+def releaseKeyPassword = System.getenv("ANDROID_KEY_PASSWORD") ?: keystoreProperties.getProperty("keyPassword")
+
+def releaseStoreFile = null
+if (releaseStorePath) {
+    def candidate = new File(releaseStorePath)
+    releaseStoreFile = candidate.isAbsolute() ? candidate : rootProject.file(releaseStorePath)
+}
+
 def getVersionNameFromPackageJson() {
     def file = new File(rootDir, "../package.json")
     def jsonSlurper = new groovy.json.JsonSlurper()
@@ -34,11 +54,23 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    signingConfigs {
+        release {
+            if (releaseStoreFile != null) {
+                storeFile releaseStoreFile
+                storePassword releaseStorePassword
+                keyAlias releaseKeyAlias
+                keyPassword releaseKeyPassword
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debug
+            if (releaseStoreFile != null) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 }
