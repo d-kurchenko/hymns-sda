@@ -12,3 +12,12 @@ export interface Article {
   bookId: number
   plainContent: string
 }
+
+export interface Favorite {
+  bookId: number
+  articleNumber: number
+  addedAt: number
+}
+
+export type FavoriteView = 'list' | 'books';
+export type FavoriteSort = 'number' | 'addedAt';

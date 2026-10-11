@@ -1,170 +1,100 @@
 import type { FuseResult } from 'fuse.js';
 import type { MaybeRefOrGetter } from 'vue';
 import type { Article } from '../model';
-import { createSharedComposable, until, watchImmediate } from '@vueuse/core';
-import { SharedUtils } from 'src/shared';
-import { ref, shallowRef, toValue, watch } from 'vue';
+import { useDebounceFn } from '@vueuse/core';
+import { onScopeDispose, ref, shallowRef, toValue, watch } from 'vue';
 import { allArticles } from '../model';
 import { useBook } from './book.use';
 
 const WORKER_LIFE_TIME = 30_000;
-
-let _worker: Worker | null = null;
-const promisesWithResolvers: Record<string, PromiseWithResolvers<any>> = {};
+let worker: Worker | null = null;
+let indexedBookId: number | null | undefined;
 let lastEventId = 0;
-
-const workerState = ref({
-  isAllBooksInited: false,
-  initedBookId: null as null | number,
-  lastEventId: null as null | number,
-  isInProgress: false,
-  isTerminated: false,
-});
+let idleTimeout: ReturnType<typeof setTimeout> | undefined;
+let searchQueue: Promise<unknown> = Promise.resolve();
+const pending = new Map<number, PromiseWithResolvers<FuseResult<Article>[]>>();
 
 function terminateWorker() {
-  _worker?.terminate();
-  workerState.value.initedBookId = null;
-  workerState.value.isAllBooksInited = false;
-  workerState.value.isTerminated = true;
+  worker?.terminate();
+  worker = null;
+  indexedBookId = undefined;
 }
 
-let workerTerminationTimeout: null | NodeJS.Timeout = null;
-watch(() => workerState.value.isInProgress, (isInProgress) => {
-  if (!isInProgress) {
-    workerTerminationTimeout = setTimeout(() => {
-      if (workerState.value.isInProgress) {
-        until(() => workerState.value.isInProgress)
-          .toBe(false)
-          .then(() => terminateWorker());
-      }
-      else {
-        terminateWorker();
-      }
-    }, WORKER_LIFE_TIME);
-    return;
+function getWorker() {
+  if (!worker) {
+    worker = new Worker(new URL('../workers/search-articles.worker.js', import.meta.url), { type: 'module' });
+    worker.onmessage = ({ data }) => {
+      pending.get(data.eventId)?.resolve(data.result);
+      pending.delete(data.eventId);
+    };
+    worker.onerror = (event) => {
+      for (const request of pending.values())
+        request.reject(new Error(event.message));
+      pending.clear();
+      terminateWorker();
+    };
   }
-
-  clearTimeout(workerTerminationTimeout ?? undefined);
-  workerTerminationTimeout = null;
-});
-
-function setupWorker(): Worker {
-  const worker = new Worker(
-    new URL('../workers/search-articles.worker.js', import.meta.url),
-    {
-      type: 'module',
-    },
-  );
-
-  worker.onmessage = ({ data }) => {
-    const { eventId, result } = data;
-    promisesWithResolvers[eventId].resolve(result);
-    delete promisesWithResolvers[eventId];
-  };
-
-  _worker = worker;
-  workerState.value.isTerminated = false;
   return worker;
 }
 
-function getWorker(): Worker {
-  const { isTerminated } = workerState.value;
-  if (_worker && !isTerminated) {
-    return _worker;
-  }
-  return setupWorker();
-}
-
-function sendCommand(command: 'INIT' | 'SEARCH', options: any) {
-  const worker = getWorker();
-
+function sendCommand(command: 'INIT' | 'SEARCH', options: object) {
   const eventId = lastEventId++;
-  workerState.value.lastEventId = eventId;
-  workerState.value.isInProgress = true;
-
-  promisesWithResolvers[eventId] = Promise.withResolvers();
-  worker.postMessage({
-    command,
-    eventId,
-    options,
-  });
-
-  promisesWithResolvers[eventId].promise
-    .then(() => {
-      workerState.value.isInProgress = false;
-    });
-
-  return {
-    eventId,
-    promise: promisesWithResolvers[eventId].promise,
-  };
+  const request = Promise.withResolvers<FuseResult<Article>[]>();
+  pending.set(eventId, request);
+  getWorker().postMessage({ command, eventId, options });
+  return request.promise;
 }
 
-async function sendSearchCommand(query: string, bookId?: number): Promise<{
-  eventId: number
-  promise: Promise<FuseResult<Article>[]>
-}> {
-  async function initBook(bookId: number) {
-    await sendCommand('INIT', {
-      data: useBook(bookId).book.articles,
-    }).promise;
-    workerState.value.initedBookId = bookId;
-    workerState.value.isAllBooksInited = false;
-  }
-
-  async function initAllBooks() {
-    await sendCommand('INIT', {
-      data: allArticles,
-    }).promise;
-    workerState.value.initedBookId = null;
-    workerState.value.isAllBooksInited = true;
-  }
-
-  const { initedBookId, isAllBooksInited } = workerState.value;
-
-  if (bookId && (!initedBookId || initedBookId !== bookId)) {
-    await initBook(bookId);
-  }
-  else if (!bookId && !isAllBooksInited) {
-    await initAllBooks();
-  }
-
-  return sendCommand('SEARCH', {
-    query,
+function searchInWorker(query: string, bookId?: number) {
+  clearTimeout(idleTimeout);
+  // The worker has one Fuse index. Keep INIT + SEARCH together so searches
+  // from cached pages cannot accidentally use another book's index.
+  const task = searchQueue.then(async () => {
+    clearTimeout(idleTimeout);
+    const scope = bookId ?? null;
+    if (indexedBookId !== scope) {
+      await sendCommand('INIT', { data: bookId === undefined ? allArticles : useBook(bookId).book.articles });
+      indexedBookId = scope;
+    }
+    return sendCommand('SEARCH', { query });
   });
+  searchQueue = task.catch(() => {});
+  void searchQueue.then(() => {
+    idleTimeout = setTimeout(terminateWorker, WORKER_LIFE_TIME);
+  });
+  return task;
 }
 
-export const useSearchInBooks = createSharedComposable((query: MaybeRefOrGetter<string>, bookId?: number) => {
+export function useSearchInBooks(query: MaybeRefOrGetter<string>, bookId?: number) {
   const isLoading = ref(false);
   const resultItems = shallowRef<FuseResult<Article>[]>([]);
+  let revision = 0;
 
-  let _lastSearchId: null | number = null;
-  async function search() {
-    isLoading.value = true;
-    const { eventId, promise } = await sendSearchCommand(toValue(query).trim(), bookId);
-    _lastSearchId = eventId;
-    const items = await promise;
-    if (_lastSearchId === eventId) {
-      resultItems.value = items;
-      isLoading.value = false;
-    }
-  }
-
-  const smartDebouncedSearch = SharedUtils.useSmartDebounceFn(search, 400, 400);
-
-  watchImmediate(() => toValue(query), (query) => {
-    if (query.length) {
-      isLoading.value = true;
-      smartDebouncedSearch();
+  const search = useDebounceFn(async (text: string, requestRevision: number) => {
+    if (requestRevision !== revision)
       return;
+    try {
+      const items = await searchInWorker(text, bookId);
+      if (requestRevision === revision)
+        resultItems.value = items;
     }
-    resultItems.value = [];
-    isLoading.value = false;
-    _lastSearchId = -1;
-  });
+    finally {
+      if (requestRevision === revision)
+        isLoading.value = false;
+    }
+  }, 250);
 
-  return {
-    resultItems,
-    isLoading,
-  };
-});
+  watch(() => toValue(query), (text) => {
+    const requestRevision = ++revision;
+    isLoading.value = !!text.trim();
+    if (isLoading.value) {
+      void search(text.trim(), requestRevision);
+    }
+    else {
+      resultItems.value = [];
+    }
+  }, { immediate: true, flush: 'sync' });
+
+  onScopeDispose(() => revision++);
+  return { resultItems, isLoading };
+}

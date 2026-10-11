@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ArticlesList } from 'src/modules/book';
+import ScrollPage from 'src/shared/ui/ScrollPage.vue';
 </script>
 
 <template>
-  <ArticlesList />
+  <ScrollPage>
+    <ArticlesList />
+  </ScrollPage>
 </template>

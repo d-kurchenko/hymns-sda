@@ -1,6 +1,23 @@
 {
   "title": "Гімни АСД",
+  "common.scrollToTop": "Нагору",
   "common.noResultsFound": "Не знайдено результатів для \"{0}\"",
   "booksList.searchArticles.placeholder": "Глобальний пошук",
-  "articlesList.search.placeholder": "Пошук"
+  "articlesList.search.placeholder": "Пошук",
+  "navigation.label": "Основна навігація",
+  "navigation.main": "Головна",
+  "navigation.favorites": "Обране",
+  "navigation.info": "Інфо",
+  "favorites.add": "Додати до обраного",
+  "favorites.remove": "Видалити з обраного",
+  "favorites.view": "Вигляд обраного",
+  "favorites.view.list": "Список",
+  "favorites.view.books": "Збірники",
+  "favorites.sort": "Сортування обраного",
+  "favorites.sort.number": "За номером",
+  "favorites.sort.addedAt": "Спочатку нові",
+  "favorites.empty.title": "В обраному поки порожньо",
+  "favorites.empty.description": "Натисніть на зірочку на сторінці псалма, щоб зберегти його тут.",
+  "info.description": "Збірники духовних пісень українською та російською мовами, доступні без інтернету.",
+  "info.github": "Проєкт на GitHub"
 }

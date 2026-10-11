@@ -150,6 +150,7 @@ body.dark {
 
 /* ─── Page slide transitions */
 :root {
+  --bottom-nav-height: calc(4.5rem + env(safe-area-inset-bottom));
   --page-transition-duration: 0.2s;
   --page-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -157,16 +158,46 @@ body.dark {
 .page-transition-container {
   flex: 1;
   display: grid;
-  overflow-x: clip;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .page-transition-wrapper {
   grid-area: 1 / 1;
-  padding: 1rem 1.5rem;
-  display: flex;
-  flex-direction: column;
+  margin: 0;
+  position: relative;
   background-color: var(--surface);
   min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.page-scroll {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  overflow-anchor: none;
+  padding: 1rem 1.5rem;
+}
+
+.page-content {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll-to-top-enter-active,
+.scroll-to-top-leave-active {
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.scroll-to-top-enter-from,
+.scroll-to-top-leave-to {
+  opacity: 0;
+  transform: translateY(5rem);
 }
 
 /* ── Forward: new page slides over from the right ── */
@@ -205,4 +236,27 @@ body.dark {
 .slide-right-enter-from {
   transform: translateX(-56px);
   opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity var(--page-transition-duration) ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide-left-enter-active,
+  .slide-left-leave-active,
+  .slide-right-enter-active,
+  .slide-right-leave-active,
+  .fade-enter-active,
+  .fade-leave-active,
+  .scroll-to-top-enter-active,
+  .scroll-to-top-leave-active {
+    transition: none;
+  }
 }

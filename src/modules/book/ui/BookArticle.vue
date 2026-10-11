@@ -2,6 +2,7 @@
 import { useRoute } from 'vue-router';
 import { bookLib } from '..';
 import { useArticleAppearance } from '../lib';
+import FavoriteArticleButton from './FavoriteArticleButton.vue';
 
 const route = useRoute();
 
@@ -16,6 +17,13 @@ const article = book.articles.find(article => article.number === articleNumber);
 </script>
 
 <template>
+  <div
+    v-if="article"
+    class="tw:flex tw:items-center tw:justify-between tw:gap-2 tw:mb-2"
+  >
+    <span class="tw:text-sm tw:text-(--on-surface-variant)">{{ book.title }}</span>
+    <FavoriteArticleButton :article="article" />
+  </div>
   <div
     v-if="article"
     :style="{

@@ -1,6 +1,23 @@
 {
   "title": "Hymns SDA",
+  "common.scrollToTop": "Back to top",
   "common.noResultsFound": "No results found for \"{0}\"",
   "booksList.searchArticles.placeholder": "Global search",
-  "articlesList.search.placeholder": "Search"
+  "articlesList.search.placeholder": "Search",
+  "navigation.label": "Main navigation",
+  "navigation.main": "Home",
+  "navigation.favorites": "Favorites",
+  "navigation.info": "Info",
+  "favorites.add": "Add to favorites",
+  "favorites.remove": "Remove from favorites",
+  "favorites.view": "Favorites view",
+  "favorites.view.list": "List",
+  "favorites.view.books": "Collections",
+  "favorites.sort": "Sort favorites",
+  "favorites.sort.number": "By number",
+  "favorites.sort.addedAt": "Newest first",
+  "favorites.empty.title": "No favorites yet",
+  "favorites.empty.description": "Tap the star on a hymn to save it here.",
+  "info.description": "A collection of hymns in Russian and Ukrainian, available offline.",
+  "info.github": "Project on GitHub"
 }

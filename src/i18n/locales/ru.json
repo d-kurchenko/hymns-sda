@@ -1,6 +1,23 @@
 {
   "title": "Гимны АСД",
   "common.noResultsFound": "Не найдено результатов для \"{0}\"",
+  "common.scrollToTop": "Наверх",
   "booksList.searchArticles.placeholder": "Глобальный поиск",
-  "articlesList.search.placeholder": "Поиск"
+  "articlesList.search.placeholder": "Поиск",
+  "navigation.label": "Основная навигация",
+  "navigation.main": "Главная",
+  "navigation.favorites": "Избранное",
+  "navigation.info": "Инфо",
+  "favorites.add": "Добавить в избранное",
+  "favorites.remove": "Удалить из избранного",
+  "favorites.view": "Вид избранного",
+  "favorites.view.list": "Список",
+  "favorites.view.books": "Сборники",
+  "favorites.sort": "Сортировка избранного",
+  "favorites.sort.number": "По номеру",
+  "favorites.sort.addedAt": "Сначала новые",
+  "favorites.empty.title": "В избранном пока пусто",
+  "favorites.empty.description": "Нажмите на звёздочку на странице псалма, чтобы сохранить его здесь.",
+  "info.description": "Сборники духовных песен на русском и украинском языках, доступные без интернета.",
+  "info.github": "Проект на GitHub"
 }

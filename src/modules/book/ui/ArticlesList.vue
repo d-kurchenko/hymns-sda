@@ -1,75 +1,47 @@
 <script setup lang="ts">
 import TrashIcon from '@material-design-icons/svg/filled/close.svg?component';
-import KeyboardArrowUpIcon from '@material-design-icons/svg/filled/keyboard_arrow_up.svg?component';
 import SearchIcon from '@material-design-icons/svg/filled/search.svg?component';
-import { useWindowVirtualizer } from '@tanstack/vue-virtual';
-import { until, useFocus, useWindowScroll } from '@vueuse/core';
-import { useRouteQuery } from '@vueuse/router';
+import { useFocus } from '@vueuse/core';
 import { AnimatePresence, motion } from 'motion-v';
-import { routerModel } from 'src/modules/router';
-import { computed, nextTick, ref, useTemplateRef } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { usePageScroll } from 'src/shared/page-scroll';
+import { computed, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 import { bookLib } from '..';
+import { usePageSearch } from '../lib/page-search.use';
+import VirtualArticlesList from './VirtualArticlesList.vue';
 
-const router = useRouter();
 const route = useRoute();
 
 const bookId = Number(route.params.bookId);
 const { book } = bookLib.useBook(bookId);
 
-const searchModel = useRouteQuery('search', '');
+const searchModel = usePageSearch();
 
 const { resultItems: articlesResults, isLoading } = bookLib.useSearchInBooks(
   searchModel,
   bookId,
 );
+const displayedArticles = computed(() => searchModel.value.length
+  ? articlesResults.value.map(result => result.item)
+  : book.articles);
 
-const { y } = useWindowScroll({ behavior: 'smooth' });
+const { y } = usePageScroll();
 const searchInputEl = ref<HTMLInputElement | null>(null);
 const isSearchInputFocused = useFocus(searchInputEl);
 const isSearchLabelHidden = computed(() =>
   y.value > 80 && (isSearchInputFocused.focused.value || searchModel.value.length),
 );
-
-const restoredScrollTop = (router.options.history.state.scroll as any)?.top as number | null;
-if (restoredScrollTop && restoredScrollTop > window.scrollY) {
-  until(isLoading)
-    .toBe(false)
-    .then(async () => {
-      await nextTick();
-      requestAnimationFrame(() => {
-        scrollTo({ top: restoredScrollTop });
-      });
-    });
-}
-
-const articlesWrapper = useTemplateRef('articlesWrapper');
-const articlesVirtualizer = useWindowVirtualizer(
-  computed(() => ({
-    count: book.articles.length,
-    estimateSize: () => 49,
-    scrollMargin: articlesWrapper.value?.offsetTop ?? 0,
-    enabled: !!(!isLoading.value && !searchModel.value.length),
-  } satisfies Parameters<typeof useWindowVirtualizer>[0])),
-);
-
-const articlesResultsWrapper = useTemplateRef('articlesResultsWrapper');
-const articlesResultsVirtualizer = useWindowVirtualizer(
-  computed(() => ({
-    count: articlesResults.value.length,
-    estimateSize: () => 49,
-    scrollMargin: articlesResultsWrapper.value?.offsetTop ?? 0,
-    enabled: !!(!isLoading.value && searchModel.value.length && articlesResults.value.length),
-  } satisfies Parameters<typeof useWindowVirtualizer>[0])),
-);
 </script>
 
 <template>
-  <div class="tw:flex-1 tw:flex tw:flex-col tw:gap-y-2">
+  <div
+    class="tw:flex-1 tw:flex tw:flex-col tw:gap-y-2"
+    :aria-busy="isLoading"
+  >
     <div
       class="field suffix round border blur
-      tw:sticky tw:top-[calc(74px+env(safe-area-inset-top))] tw:z-10 tw:mb-0!"
+      tw:sticky tw:top-0 tw:z-10 tw:mb-0!"
       :class="{ label: !isSearchLabelHidden }"
     >
       <input
@@ -109,106 +81,19 @@ const articlesResultsVirtualizer = useWindowVirtualizer(
     </div>
 
     <div
-      v-if="isLoading"
+      v-if="isLoading && !articlesResults.length"
       class="tw:flex-1 tw:w-full tw:flex tw:justify-center tw:items-center tw:opacity-30"
     >
       <div class="shape loading-indicator extra" />
     </div>
 
-    <article
-      v-else-if="!searchModel.length"
-      ref="articlesWrapper"
-      style="overflow-anchor: none;"
-    >
-      <div
-        class="tw:relative tw:w-full"
-        :style="{ height: `${articlesVirtualizer.getTotalSize()}px` }"
-      >
-        <div
-          class="tw:absolute tw:top-0 tw:left-0 tw:w-full"
-          :style="{
-            transform: `translateY(${
-              articlesVirtualizer.getVirtualItems()[0]?.start - articlesVirtualizer.options.scrollMargin || 0
-            }px)`,
-          }"
-        >
-          <div
-            v-for="virtualRow in articlesVirtualizer.getVirtualItems()"
-            :key="(virtualRow.key as string)"
-            :ref="(element) => articlesVirtualizer.measureElement((element as any))"
-            :data-index="virtualRow.index"
-          >
-            <a
-              class="row ripple tw:!whitespace-break-spaces"
-              @click="router.push({
-                name: routerModel.RouteName.Article,
-                params: { bookId, articleNumber: book.articles[virtualRow.index].number },
-              })"
-              v-text="`${book.articles[virtualRow.index].number}. ${book.articles[virtualRow.index].title}`"
-            />
-            <hr v-if="virtualRow.index !== book.articles.length - 1">
-          </div>
-        </div>
-      </div>
-    </article>
-
-    <article
-      v-else-if="articlesResults.length"
-      ref="articlesResultsWrapper"
-      style="overflow-anchor: none;"
-    >
-      <div
-        class="tw:relative tw:w-full"
-        :style="{ height: `${articlesResultsVirtualizer.getTotalSize()}px` }"
-      >
-        <div
-          class="tw:absolute tw:top-0 tw:left-0 tw:w-full"
-          :style="{
-            transform: `translateY(${
-              articlesResultsVirtualizer.getVirtualItems()[0]?.start - articlesResultsVirtualizer.options.scrollMargin || 0
-            }px)`,
-          }"
-        >
-          <div
-            v-for="virtualRow in articlesResultsVirtualizer.getVirtualItems()"
-            :key="(virtualRow.key as string)"
-            :ref="(element) => articlesResultsVirtualizer.measureElement((element as any))"
-            :data-index="virtualRow.index"
-          >
-            <a
-              class="row ripple tw:!whitespace-break-spaces"
-              @click="router.push({
-                name: routerModel.RouteName.Article,
-                params: { bookId, articleNumber: articlesResults[virtualRow.index].item.number },
-              })"
-              v-text="`${articlesResults[virtualRow.index].item.number}. ${articlesResults[virtualRow.index].item.title}`"
-            />
-            <hr v-if="virtualRow.index !== articlesResults.length - 1">
-          </div>
-        </div>
-      </div>
-    </article>
+    <VirtualArticlesList
+      v-else-if="!searchModel.length || articlesResults.length"
+      :articles="displayedArticles"
+    />
 
     <div v-else-if="!isLoading">
       {{ $t('common.noResultsFound', [searchModel]) }}
     </div>
-
-    <AnimatePresence :initial="false">
-      <motion.button
-        v-if="y >= 300"
-        class="border circle extra large-elevate secondary-border secondary-text blur ripple tw:fixed tw:right-5 tw:z-10"
-        :variants="{
-          hidden: { opacity: 0, bottom: 0 },
-          visible: { opacity: 1, bottom: 'calc(var(--tw-spacing) * 5)' },
-        }"
-        initial="hidden"
-        animate="visible"
-        exit="hidden"
-        :transition="{ duration: 0.2 }"
-        @click.prevent.stop="y = 0"
-      >
-        <i><KeyboardArrowUpIcon /></i>
-      </motion.button>
-    </AnimatePresence>
   </div>
 </template>

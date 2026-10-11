@@ -1,7 +1,7 @@
-import { bookModel } from '..';
+import { books } from '../model';
 
 export function useBook(bookId: number) {
-  const book = bookModel.books.find(book => book.id === bookId);
+  const book = books.find(book => book.id === bookId);
 
   if (!book)
     throw new Error(`Book with code ${bookId} not found`);
