@@ -1,9 +1,11 @@
 import type { Book } from './types';
+import { BOOK_LANGUAGE } from './constants';
 
 export const unpreparedBooks = [
   {
     title: 'Гимны Надежды',
     id: 0,
+    language: BOOK_LANGUAGE.RU,
     articles: [
       {
         title: 'Коль славен',
@@ -1935,6 +1937,7 @@ export const unpreparedBooks = [
   {
     title: 'Псалмы Сиона',
     id: 1,
+    language: BOOK_LANGUAGE.RU,
     articles: [
       {
         title: 'Боже, мы поем Тебе',
@@ -4566,6 +4569,7 @@ export const unpreparedBooks = [
   {
     title: 'Псалми Сіона',
     id: 6,
+    language: BOOK_LANGUAGE.UK,
     articles: [
       {
         title: 'Боже Вічний, ми Тобі',
@@ -7197,6 +7201,7 @@ export const unpreparedBooks = [
   {
     title: 'Пiснi надiї',
     id: 2,
+    language: BOOK_LANGUAGE.UK,
     articles: [
       {
         title: 'БОЖЕ, СЛАВИМО ТЕБЕ',
@@ -8838,6 +8843,7 @@ export const unpreparedBooks = [
   {
     title: 'Поющие сердечки',
     id: 3,
+    language: BOOK_LANGUAGE.RU,
     articles: [
       {
         title: 'Мы маленькие деточки',
@@ -9319,6 +9325,7 @@ export const unpreparedBooks = [
   {
     title: 'Родник хвалы и вдохновенья',
     id: 4,
+    language: BOOK_LANGUAGE.RU,
     articles: [
       {
         title: 'Когда весенний ветерок',
@@ -11095,6 +11102,7 @@ export const unpreparedBooks = [
   {
     title: 'Ближе быть к Тебе',
     id: 5,
+    language: BOOK_LANGUAGE.RU,
     articles: [
       {
         title: 'Покажи мне моё сердце',

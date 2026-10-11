@@ -1,9 +1,12 @@
-import type { FAVORITE_SORT, FAVORITE_VIEW } from './constants';
+import type { BOOK_LANGUAGE, FAVORITE_SORT, FAVORITE_VIEW } from './constants';
+
+export type BookLanguage = typeof BOOK_LANGUAGE[keyof typeof BOOK_LANGUAGE];
 
 export interface Book {
   title: string
   articles: Article[]
   id: number
+  language: BookLanguage
 }
 
 export interface Article {

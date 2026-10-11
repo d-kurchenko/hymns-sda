@@ -1,6 +1,13 @@
 <script setup lang="ts">
-import { SettingsAbout, SettingsAppearance, SettingsReset } from 'src/modules/settings';
+import { SettingsAbout, SettingsAppearance, SettingsBooks, SettingsReset } from 'src/modules/settings';
 import ScrollPage from 'src/shared/ui/ScrollPage.vue';
+
+const sections = [
+  { id: 'appearance', component: SettingsAppearance },
+  { id: 'books', component: SettingsBooks },
+  { id: 'reset', component: SettingsReset },
+  { id: 'about', component: SettingsAbout },
+];
 </script>
 
 <template>
@@ -14,11 +21,16 @@ import ScrollPage from 'src/shared/ui/ScrollPage.vue';
           {{ $t('settings.description') }}
         </p>
       </div>
-      <SettingsAppearance />
-      <hr class="tw:m-0!">
-      <SettingsReset />
-      <hr class="tw:m-0!">
-      <SettingsAbout />
+      <template
+        v-for="(section, index) in sections"
+        :key="section.id"
+      >
+        <hr
+          v-if="index > 0"
+          class="tw:m-0!"
+        >
+        <component :is="section.component" />
+      </template>
     </div>
   </ScrollPage>
 </template>

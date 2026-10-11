@@ -20,7 +20,7 @@ const searchModel = usePageSearch();
 
 const { resultItems: articlesResults, isLoading } = bookLib.useSearchInBooks(
   searchModel,
-  bookId,
+  { bookId },
 );
 const displayedArticles = computed(() => searchModel.value.length
   ? articlesResults.value.map(result => result.item)

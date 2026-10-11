@@ -2,7 +2,7 @@
 import type { RouteMeta } from 'vue-router';
 import ArrowBackIcon from '@material-design-icons/svg/filled/arrow_back.svg?component';
 import { AnimatePresence, motion } from 'motion-v';
-import { ArticleAppearanceButton } from 'src/modules/book';
+import { ArticleAppearanceButton, BookLanguagesButton } from 'src/modules/book';
 import { routerModel } from 'src/modules/router';
 import { SelectThemeButton } from 'src/modules/theme';
 import BottomNavbar from './BottomNavbar.vue';
@@ -10,7 +10,7 @@ import BottomNavbar from './BottomNavbar.vue';
 
 <template>
   <div class="tw:h-full tw:min-h-0 tw:flex tw:flex-1 tw:flex-col tw:pb-(--bottom-nav-height)">
-    <div class="tw:pt-[calc(0.5rem+env(safe-area-inset-top))] tw:pb-2 tw:px-4 tw:flex tw:justify-between tw:items-center tw:select-none tw:sticky tw:top-0 tw:z-10 blur tw:border-b tw:border-(--outline)">
+    <div class="tw:pt-[calc(0.5rem+env(safe-area-inset-top))] tw:pb-2 tw:px-4 tw:flex tw:justify-between tw:items-center tw:select-none tw:sticky tw:top-0 tw:z-30 blur tw:border-b tw:border-(--outline)">
       <div class="tw:flex tw:items-center tw:overflow-hidden">
         <AnimatePresence :initial="false">
           <motion.div
@@ -35,7 +35,7 @@ import BottomNavbar from './BottomNavbar.vue';
         </div>
       </div>
 
-      <div class="tw:flex tw:gap-2">
+      <div class="tw:flex tw:shrink-0 tw:gap-2">
         <AnimatePresence :initial="false">
           <motion.div
             v-if="$route.name === routerModel.RouteName.Article"
@@ -48,6 +48,11 @@ import BottomNavbar from './BottomNavbar.vue';
             <ArticleAppearanceButton />
           </motion.div>
         </AnimatePresence>
+        <BookLanguagesButton
+          v-if="$route.name === routerModel.RouteName.Main"
+          icon-only
+          align-end
+        />
         <SelectThemeButton class="tw:m-0" />
       </div>
     </div>

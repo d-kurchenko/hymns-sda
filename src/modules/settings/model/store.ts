@@ -15,7 +15,7 @@ export const useSettings = createSharedComposable(() => {
   );
 
   const isDefault = computed(() => (Object.keys(defaultSettings) as (keyof Settings)[])
-    .every(key => storedSettings.value[key] === defaultSettings[key]));
+    .every(key => JSON.stringify(storedSettings.value[key]) === JSON.stringify(defaultSettings[key])));
 
   function patch(values: Partial<Settings>) {
     storedSettings.value = settingsSchema.parse({ ...storedSettings.value, ...values });

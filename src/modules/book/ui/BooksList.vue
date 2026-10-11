@@ -4,22 +4,24 @@ import SearchIcon from '@material-design-icons/svg/filled/search.svg?component';
 import { useFocus } from '@vueuse/core';
 import { AnimatePresence, motion } from 'motion-v';
 import { routerModel } from 'src/modules/router';
+import { useSettings } from 'src/modules/settings/model';
 import { usePageScroll } from 'src/shared/page-scroll';
-import { computed, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, ref, watch } from 'vue';
 import { bookLib, bookModel } from '..';
 import { usePageSearch } from '../lib/page-search.use';
 import VirtualArticlesList from './VirtualArticlesList.vue';
 
-const router = useRouter();
 const { books } = bookModel;
+const languages = useSettings().setting('bookLanguages');
+const displayedBooks = computed(() => books.filter(book => languages.value.includes(book.language)));
 
 const searchModel = usePageSearch();
 
-const { resultItems: articlesResults, isLoading } = bookLib.useSearchInBooks(searchModel);
+const { resultItems: articlesResults, isLoading } = bookLib.useSearchInBooks(searchModel, { languages });
 const displayedArticles = computed(() => articlesResults.value.map(result => result.item));
 
-const { y } = usePageScroll();
+const { y, scrollToTop } = usePageScroll();
+watch(languages, () => scrollToTop());
 const searchInputEl = ref<HTMLInputElement | null>(null);
 const isSearchInputFocused = useFocus(searchInputEl);
 const isSearchLabelHidden = computed(() =>
@@ -73,7 +75,7 @@ const isSearchLabelHidden = computed(() =>
     </div>
 
     <div
-      v-if="isLoading && !articlesResults.length"
+      v-if="isLoading && !displayedArticles.length"
       class="tw:flex-1 tw:w-full tw:flex tw:justify-center tw:items-center tw:opacity-30"
     >
       <div class="shape loading-indicator extra" />
@@ -82,24 +84,25 @@ const isSearchLabelHidden = computed(() =>
     <template v-else-if="!searchModel.length">
       <article>
         <template
-          v-for="(book, index) in books"
-          :key="index"
+          v-for="(book, index) in displayedBooks"
+          :key="book.id"
         >
-          <a
+          <RouterLink
             class="row ripple tw:!whitespace-break-spaces"
-            @click="router.push({
+            :to="{
               name: routerModel.RouteName.Book,
               params: { bookId: book.id },
-            })"
-            v-text="book.title"
-          />
-          <hr v-if="index !== books.length - 1">
+            }"
+          >
+            {{ book.title }}
+          </RouterLink>
+          <hr v-if="index !== displayedBooks.length - 1">
         </template>
       </article>
     </template>
 
     <VirtualArticlesList
-      v-else-if="articlesResults.length"
+      v-else-if="displayedArticles.length"
       :articles="displayedArticles"
       show-book
     />
