@@ -24,7 +24,7 @@ const route = useRoute();
       >{{ article.number }}. {{ article.title }}</span>
       <span
         v-if="showBook"
-        class="tw:text-xs tw:text-(--on-surface-variant) tw:max-w-full"
+        class="tw:inline-flex tw:max-w-full tw:rounded-full tw:px-2 tw:py-0.5 tw:text-xs tw:font-medium tw:text-(--on-surface-variant) tw:bg-(--surface-variant)/50"
         :class="{ 'tw:truncate': truncate }"
       >
         {{ article.bookTitle }}
