@@ -1,3 +1,5 @@
 export const LocalStorageKey = {
-  COLOR_SCHEME: 'color-scheme',
+  SETTINGS: 'settings',
+  FAVORITES_VIEW: 'favorites:view',
+  FAVORITES_SORT: 'favorites:sort',
 } as const;

@@ -2,6 +2,10 @@
 import KeyboardArrowUpIcon from '@material-design-icons/svg/filled/keyboard_arrow_up.svg?component';
 import { providePageScroll } from '../page-scroll';
 
+const props = withDefaults(defineProps<{ showScrollToTop?: boolean }>(), {
+  showScrollToTop: true,
+});
+
 const { element, y, onScroll, scrollToTop } = providePageScroll();
 </script>
 
@@ -17,7 +21,10 @@ const { element, y, onScroll, scrollToTop } = providePageScroll();
         <slot />
       </div>
     </div>
-    <Transition name="scroll-to-top">
+    <Transition
+      v-if="props.showScrollToTop"
+      name="scroll-to-top"
+    >
       <button
         v-show="y >= 300"
         class="border circle extra large-elevate secondary-border secondary-text blur ripple tw:absolute tw:right-5 tw:bottom-5 tw:z-20"

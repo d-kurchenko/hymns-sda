@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import HomeIcon from '@material-design-icons/svg/filled/home.svg?component';
-import InfoIcon from '@material-design-icons/svg/filled/info.svg?component';
+import SettingsIcon from '@material-design-icons/svg/filled/settings.svg?component';
 import StarIcon from '@material-design-icons/svg/filled/star.svg?component';
 import { routerModel } from 'src/modules/router';
 import { computed } from 'vue';
@@ -11,7 +11,7 @@ const router = useRouter();
 const tabs = [
   { name: routerModel.RouteName.Main, icon: HomeIcon, label: 'navigation.main' },
   { name: routerModel.RouteName.Favorites, icon: StarIcon, label: 'navigation.favorites' },
-  { name: routerModel.RouteName.Info, icon: InfoIcon, label: 'navigation.info' },
+  { name: routerModel.RouteName.Settings, icon: SettingsIcon, label: 'navigation.settings' },
 ];
 const activeTab = computed(() => {
   if (route.name === routerModel.RouteName.Article) {

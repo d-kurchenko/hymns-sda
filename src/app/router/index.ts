@@ -18,9 +18,13 @@ const router = createRouter({
       component: async () => (await import('src/pages/')).FavoritesPage,
     },
     {
+      path: '/settings',
+      name: routerModel.RouteName.Settings,
+      component: async () => (await import('src/pages/')).SettingsPage,
+    },
+    {
       path: '/info',
-      name: routerModel.RouteName.Info,
-      component: async () => (await import('src/pages/')).InfoPage,
+      redirect: { name: routerModel.RouteName.Settings },
     },
     {
       path: '/books/:bookId',

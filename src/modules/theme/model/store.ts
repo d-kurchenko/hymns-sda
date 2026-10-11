@@ -1,46 +1,23 @@
 import type { ColorMode, ColorScheme } from './types';
-import { createSharedComposable, useLocalStorage, usePreferredColorScheme, watchImmediate } from '@vueuse/core';
+import { createSharedComposable, usePreferredColorScheme, watchImmediate } from '@vueuse/core';
 import { ui } from 'beercss/loader';
-import { localStorageModel } from 'src/modules/local-storage';
-import { computed, watch } from 'vue';
+import { settingsModel } from 'src/modules/settings';
+import { computed } from 'vue';
 import { syncSafeAreaContentColor } from '../lib';
+import { COLOR_SCHEME, COLOR_SCHEME_OPTIONS } from './constants';
 import 'beercss/dist/cdn/settings/theme.js';
 import 'beercss/dist/cdn/helpers/ripple.js';
 import 'beercss/dist/cdn/elements/field.js';
 import 'beercss/dist/cdn/elements/menu.js';
 import 'beercss/dist/cdn/elements/slider.js';
 
-type ColorSchemeClass = Exclude<ColorScheme, 'preferred'>;
-
-function setThemeClass(className: ColorSchemeClass) {
-  if (className === 'light')
-    ui('mode', 'light');
-  else
-    ui('mode', 'dark');
-}
-
 export const useThemeStore = createSharedComposable(() => {
   const _preferredColorScheme = usePreferredColorScheme();
-  const preferredColorScheme = computed(() => _preferredColorScheme.value === 'no-preference' ? 'light' : _preferredColorScheme.value);
+  const preferredColorScheme = computed(() => _preferredColorScheme.value === 'no-preference' ? COLOR_SCHEME.LIGHT : _preferredColorScheme.value);
 
-  const colorSchemeStorage = useLocalStorage<ColorScheme>(
-    localStorageModel.LocalStorageKey.COLOR_SCHEME,
-    'preferred',
-  );
+  const colorScheme = settingsModel.useSettings().setting('colorScheme');
 
-  const colorScheme = computed<ColorScheme>({
-    get: () => colorSchemeStorage.value,
-    set: value => colorSchemeStorage.value = value,
-  });
-
-  const activeColorMode = computed<ColorMode>(() => colorScheme.value === 'preferred' ? preferredColorScheme.value : colorScheme.value);
-
-  watch(preferredColorScheme, () => {
-    if (colorScheme.value === 'preferred')
-      setThemeClass(preferredColorScheme.value);
-
-    syncSafeAreaContentColor(activeColorMode.value);
-  });
+  const activeColorMode = computed<ColorMode>(() => colorScheme.value === COLOR_SCHEME.SYSTEM ? preferredColorScheme.value : colorScheme.value);
 
   const toggleColorScheme = (_colorScheme?: ColorScheme) => {
     if (_colorScheme) {
@@ -48,21 +25,13 @@ export const useThemeStore = createSharedComposable(() => {
       return;
     }
 
-    if (colorScheme.value === 'light')
-      colorScheme.value = 'dark';
-    else if (colorScheme.value === 'dark')
-      colorScheme.value = 'preferred';
-    else
-      colorScheme.value = 'light';
+    const index = COLOR_SCHEME_OPTIONS.findIndex(option => option.value === colorScheme.value);
+    colorScheme.value = COLOR_SCHEME_OPTIONS[(index + 1) % COLOR_SCHEME_OPTIONS.length]!.value;
   };
 
-  watchImmediate(colorScheme, (value) => {
-    if (value === 'dark' || value === 'light')
-      setThemeClass(value);
-    else if (value === 'preferred')
-      setThemeClass(preferredColorScheme.value);
-
-    syncSafeAreaContentColor(activeColorMode.value);
+  watchImmediate(activeColorMode, (value) => {
+    ui('mode', value);
+    syncSafeAreaContentColor(value);
   });
 
   return {

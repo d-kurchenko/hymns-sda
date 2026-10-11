@@ -1,20 +1,13 @@
 <script setup lang="ts">
-import type { FavoriteSort, FavoriteView } from '../model';
+import type { FavoriteSort } from '../model';
 import CheckIcon from '@material-design-icons/svg/filled/check.svg?component';
 import SortIcon from '@material-design-icons/svg/filled/sort.svg?component';
 import { onClickOutside, useMediaQuery } from '@vueuse/core';
 import { ref, useTemplateRef } from 'vue';
 import { useFavorites } from '../lib';
+import { FAVORITE_SORT_OPTIONS, FAVORITE_VIEW_OPTIONS } from '../model';
 
 const { view, sort } = useFavorites();
-const views: { value: FavoriteView, label: string }[] = [
-  { value: 'list', label: 'favorites.view.list' },
-  { value: 'books', label: 'favorites.view.books' },
-];
-const sorts: { value: FavoriteSort, label: string }[] = [
-  { value: 'number', label: 'favorites.sort.number' },
-  { value: 'addedAt', label: 'favorites.sort.addedAt' },
-];
 const isOpen = ref(false);
 const isCompact = useMediaQuery('(max-width: 480px)');
 const sortControl = useTemplateRef('sortControl');
@@ -56,7 +49,7 @@ function navigateMenu(event: KeyboardEvent) {
       :aria-label="$t('favorites.view')"
     >
       <button
-        v-for="option in views"
+        v-for="option in FAVORITE_VIEW_OPTIONS"
         :key="option.value"
         type="button"
         class="ripple"
@@ -101,7 +94,7 @@ function navigateMenu(event: KeyboardEvent) {
         @transitionend.self="focusMenu"
       >
         <li
-          v-for="option in sorts"
+          v-for="option in FAVORITE_SORT_OPTIONS"
           :key="option.value"
           class="ripple"
           :class="{ active: sort === option.value }"

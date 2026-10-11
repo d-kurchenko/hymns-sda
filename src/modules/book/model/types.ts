@@ -1,3 +1,5 @@
+import type { FAVORITE_SORT, FAVORITE_VIEW } from './constants';
+
 export interface Book {
   title: string
   articles: Article[]
@@ -19,5 +21,5 @@ export interface Favorite {
   addedAt: number
 }
 
-export type FavoriteView = 'list' | 'books';
-export type FavoriteSort = 'number' | 'addedAt';
+export type FavoriteView = typeof FAVORITE_VIEW[keyof typeof FAVORITE_VIEW];
+export type FavoriteSort = typeof FAVORITE_SORT[keyof typeof FAVORITE_SORT];

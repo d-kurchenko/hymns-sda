@@ -6,7 +6,7 @@ import { usePageScroll } from 'src/shared/page-scroll';
 import { usePageVirtualizer } from 'src/shared/page-virtualizer';
 import { computed, ref, useTemplateRef, watch } from 'vue';
 import { useFavorites } from '../lib';
-import { books } from '../model';
+import { books, FAVORITE_VIEW } from '../model';
 import ArticleListItem from './ArticleListItem.vue';
 import FavoritesControls from './FavoritesControls.vue';
 
@@ -15,7 +15,7 @@ type FavoriteRow = { type: 'book', book: Book } | { type: 'article', article: Ar
 const { favorites, view, sort } = useFavorites();
 const { scrollToTop } = usePageScroll();
 const rows = computed<FavoriteRow[]>(() => {
-  if (view.value === 'list')
+  if (view.value === FAVORITE_VIEW.LIST)
     return favorites.value.map(article => ({ type: 'article', article }));
 
   return books.flatMap<FavoriteRow>((book) => {
@@ -36,7 +36,7 @@ watch(() => favorites.value.length, () => {
 watch([view, sort], () => scrollToTop());
 
 const list = useTemplateRef('list');
-const articleHeight = computed(() => view.value === 'list' ? 88 : 64);
+const articleHeight = computed(() => view.value === FAVORITE_VIEW.LIST ? 88 : 64);
 const rowHeight = (index: number) => rows.value[index].type === 'book' ? 80 : articleHeight.value;
 
 const virtualizer = usePageVirtualizer(list, computed(() => ({
@@ -112,7 +112,7 @@ const virtualRows = computed(() => virtualizer.value.getVirtualItems().map(item 
               <template v-else>
                 <ArticleListItem
                   :article="virtualRow.row.article"
-                  :show-book="view === 'list'"
+                  :show-book="view === FAVORITE_VIEW.LIST"
                   truncate
                   :style="{ height: `${articleHeight - 1}px` }"
                 />

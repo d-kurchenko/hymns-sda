@@ -3,5 +3,5 @@ export const RouteName = {
   Book: 'book',
   Article: 'article',
   Favorites: 'favorites',
-  Info: 'info',
+  Settings: 'settings',
 } as const;

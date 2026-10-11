@@ -1,8 +1,8 @@
-import { createSharedComposable, useLocalStorage } from '@vueuse/core';
-import { bookModel } from '..';
+import { createSharedComposable } from '@vueuse/core';
+import { settingsModel } from 'src/modules/settings';
 
 export const useArticleAppearance = createSharedComposable(() => {
-  const fontSize = useLocalStorage('article:font-size', bookModel.DEFAULT_FONT_SIZE);
+  const fontSize = settingsModel.useSettings().setting('fontSize');
 
   return {
     fontSize,

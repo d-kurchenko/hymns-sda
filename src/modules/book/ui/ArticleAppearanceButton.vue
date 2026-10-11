@@ -14,7 +14,9 @@ onClickOutside(menu, () => isActive.value = false);
 
 <template>
   <button
+    type="button"
     class="transparent circle ripple"
+    :aria-label="$t('settings.fontSize')"
     data-ui="#menu"
   >
     <i><FormatPaintIcon /></i>
@@ -30,8 +32,9 @@ onClickOutside(menu, () => isActive.value = false);
         <label class="slider small">
           <span />
           <input
-            v-model="fontSize"
+            v-model.number="fontSize"
             type="range"
+            :aria-label="$t('settings.fontSize')"
             :min="bookModel.MIN_FONT_SIZE"
             :max="bookModel.MAX_FONT_SIZE"
           >
