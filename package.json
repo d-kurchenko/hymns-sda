@@ -15,6 +15,7 @@
     "type-check": "vue-tsc --build --force",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "assets:google-play": "python3 docs/google-play/render.py",
     "open:android": "cap copy android && cap open android"
   },
   "dependencies": {

@@ -29,3 +29,8 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+# Generated Google Play posters and local Python environment
+/docs/google-play/out/
+/docs/google-play/.venv/
+/docs/google-play/__pycache__/

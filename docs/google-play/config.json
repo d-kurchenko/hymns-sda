@@ -1,0 +1,64 @@
+{
+  "app_name": "Гимны АСД",
+  "footer": "Без интернета · Без рекламы",
+  "font": "assets/fonts/AdwaitaSans.ttf",
+  "icon": "../../android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+  "colors": {
+    "background": "#051f25",
+    "glow": "#0d4248",
+    "text": "#f5faf9",
+    "muted": "#bed2d3",
+    "accent": "#97f0ff",
+    "frame": "#092228",
+    "outline": "#57757b"
+  },
+  "formats": {
+    "phone": { "width": 1080, "height": 1920, "screenshots": "phone", "min_side": 320, "max_side": 3840, "max_mb": 8 },
+    "tablet-7-inch": { "width": 1440, "height": 2560, "screenshots": "tablet", "min_side": 320, "max_side": 3840, "max_mb": 8 },
+    "tablet-10-inch": { "width": 2160, "height": 3840, "screenshots": "tablet", "min_side": 1080, "max_side": 7680, "max_mb": 8 },
+    "desktop": { "width": 3840, "height": 2160, "screenshots": "wide", "min_side": 1080, "max_side": 7680, "max_mb": 8 },
+    "android-xr": { "width": 3840, "height": 2160, "screenshots": "wide", "min_side": 720, "max_side": 7680, "max_mb": 15 }
+  },
+  "slides": [
+    {
+      "id": "01-collections",
+      "title": "Все сборники\nпод рукой",
+      "subtitle": "7 сборников на двух языках",
+      "screenshots": {
+        "phone": "screenshots/phone-home.jpg",
+        "tablet": "screenshots/tablet-home.jpg",
+        "wide": "screenshots/wide-home.jpg"
+      }
+    },
+    {
+      "id": "02-search",
+      "title": "Найдите нужный\nпсалом",
+      "subtitle": "По номеру, названию или словам",
+      "screenshots": {
+        "phone": "screenshots/phone-search.jpg",
+        "tablet": "screenshots/tablet-search.jpg",
+        "wide": "screenshots/wide-search.jpg"
+      }
+    },
+    {
+      "id": "03-hymn",
+      "title": "Пойте\nс комфортом",
+      "subtitle": "Удобный размер текста",
+      "screenshots": {
+        "phone": "screenshots/phone-detail.jpg",
+        "tablet": "screenshots/tablet-detail.jpg",
+        "wide": "screenshots/wide-detail.jpg"
+      }
+    },
+    {
+      "id": "04-favorites",
+      "title": "Любимые псалмы\nвсегда рядом",
+      "subtitle": "Избранное из разных сборников",
+      "screenshots": {
+        "phone": "screenshots/phone-favorites.jpg",
+        "tablet": "screenshots/tablet-favorites.jpg",
+        "wide": "screenshots/wide-favorites.jpg"
+      }
+    }
+  ]
+}
