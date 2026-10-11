@@ -34,8 +34,8 @@
   "settings.reset": "Сбросить настройки",
   "settings.reset.description": "Вернуть тему, размер текста, язык интерфейса и языки псалмов по умолчанию.",
   "settings.about": "О приложении",
-  "settings.about.description": "Сборники духовных песен на русском и украинском языках, доступные без интернета.",
   "settings.github": "Проект на GitHub",
+  "settings.version": "Версия {0}",
   "settings.language.uk": "Українська",
   "settings.language.ru": "Русский",
   "settings.language.en": "English"

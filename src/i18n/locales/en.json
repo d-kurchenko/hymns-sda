@@ -34,8 +34,8 @@
   "settings.reset": "Reset settings",
   "settings.reset.description": "Restore the default theme, text size, interface language and hymn languages.",
   "settings.about": "About the app",
-  "settings.about.description": "A collection of hymns in Russian and Ukrainian, available offline.",
   "settings.github": "Project on GitHub",
+  "settings.version": "Version {0}",
   "settings.language.uk": "Українська",
   "settings.language.ru": "Русский",
   "settings.language.en": "English"
