@@ -4,7 +4,7 @@ import ScrollPage from 'src/shared/ui/ScrollPage.vue';
 </script>
 
 <template>
-  <ScrollPage>
+  <ScrollPage show-scroll-to-top>
     <ArticlesList />
   </ScrollPage>
 </template>

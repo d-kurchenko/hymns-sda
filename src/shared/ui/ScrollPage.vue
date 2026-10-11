@@ -3,7 +3,7 @@ import KeyboardArrowUpIcon from '@material-design-icons/svg/filled/keyboard_arro
 import { providePageScroll } from '../page-scroll';
 
 const props = withDefaults(defineProps<{ showScrollToTop?: boolean }>(), {
-  showScrollToTop: true,
+  showScrollToTop: false,
 });
 
 const { element, y, onScroll, scrollToTop } = providePageScroll();
