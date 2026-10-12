@@ -114,7 +114,7 @@ function onFocusOut(event: FocusEvent) {
     <menu
       :id="menuId"
       ref="menu"
-      class="no-wrap tw:mt-2 tw:min-w-52"
+      class="no-wrap tw:min-w-52"
       :class="{ active: isOpen, left: alignEnd, right: !alignEnd }"
       role="menu"
       :aria-label="$t('books.languages')"

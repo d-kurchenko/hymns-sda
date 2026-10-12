@@ -1,4 +1,5 @@
 @import 'tailwindcss' prefix(tw);
+@import './menus.css';
 
 @layer utilities {
   /* settings (font skipped — icons come from SVGs, not Material Symbols) */

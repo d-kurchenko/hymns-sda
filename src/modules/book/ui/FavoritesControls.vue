@@ -85,7 +85,7 @@ function navigateMenu(event: KeyboardEvent) {
 
       <menu
         ref="sortMenu"
-        class="left no-wrap tw:mt-2 tw:min-w-52"
+        class="left no-wrap tw:min-w-52"
         :class="{ active: isOpen }"
         role="menu"
         :aria-label="$t('favorites.sort')"

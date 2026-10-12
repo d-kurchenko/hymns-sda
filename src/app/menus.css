@@ -1,0 +1,12 @@
+menu:not(.min, .max) {
+  translate: 0 0.5rem;
+  transition: opacity var(--speed2), transform var(--speed2), visibility 0s var(--speed2);
+}
+
+menu.active {
+  transition: opacity var(--speed2), transform var(--speed2), visibility 0s;
+}
+
+menu.top:not(.min, .max) {
+  translate: 0 -0.5rem;
+}
