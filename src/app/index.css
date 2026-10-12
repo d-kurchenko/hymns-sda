@@ -151,6 +151,7 @@ body.dark {
 /* ─── Page slide transitions */
 :root {
   --bottom-nav-height: calc(4.5rem + env(safe-area-inset-bottom));
+  --app-header-height: calc(3.5625rem + env(safe-area-inset-top));
   --page-transition-duration: 0.2s;
   --page-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -160,13 +161,13 @@ body.dark {
   display: grid;
   min-height: 0;
   overflow: hidden;
+  margin-top: calc(0px - var(--app-header-height));
 }
 
 .page-transition-wrapper {
   grid-area: 1 / 1;
   margin: 0;
   position: relative;
-  background-color: var(--surface);
   min-width: 0;
   min-height: 0;
   overflow: hidden;
@@ -178,7 +179,7 @@ body.dark {
   overflow: auto;
   overscroll-behavior: contain;
   overflow-anchor: none;
-  padding: 1rem 1.5rem;
+  padding: calc(var(--app-header-height) + 1rem) 1.5rem 1rem;
 }
 
 .page-content {

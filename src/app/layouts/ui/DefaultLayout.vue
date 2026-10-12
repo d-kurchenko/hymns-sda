@@ -9,8 +9,8 @@ import BottomNavbar from './BottomNavbar.vue';
 </script>
 
 <template>
-  <div class="tw:h-full tw:min-h-0 tw:flex tw:flex-1 tw:flex-col tw:pb-(--bottom-nav-height)">
-    <div class="tw:pt-[calc(0.5rem+env(safe-area-inset-top))] tw:pb-2 tw:px-4 tw:flex tw:justify-between tw:items-center tw:select-none tw:sticky tw:top-0 tw:z-30 blur tw:border-b tw:border-(--outline)">
+  <div class="tw:relative tw:h-full tw:min-h-0 tw:flex tw:flex-1 tw:flex-col tw:pb-(--bottom-nav-height) tw:bg-(--surface)">
+    <div class="tw:h-(--app-header-height) tw:pt-[calc(0.5rem+env(safe-area-inset-top))] tw:pb-2 tw:px-4 tw:flex tw:justify-between tw:items-center tw:select-none tw:sticky tw:top-0 tw:z-30 blur tw:border-b tw:border-(--outline)">
       <div class="tw:flex tw:items-center tw:overflow-hidden">
         <AnimatePresence :initial="false">
           <motion.div
