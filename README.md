@@ -10,7 +10,7 @@
 
 <p align="center">
   <img alt="Android 7.0+" src="https://img.shields.io/badge/Android-7.0%2B-3DDC84?logo=android&logoColor=white">
-  <img alt="Версия 1.0.1" src="https://img.shields.io/badge/версия-1.0.1-006874">
+  <img alt="Версия 1.0.2" src="https://img.shields.io/badge/версия-1.0.2-006874">
   <a href="LICENSE"><img alt="Лицензия MIT" src="https://img.shields.io/badge/код-MIT-blue"></a>
 </p>
 
